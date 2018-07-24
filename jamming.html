@@ -1,0 +1,14 @@
+<script type="text/javascript">
+
+
+function getCookie(cookieName){
+    var decodedcookie = decodeURIComponent(document.cookie);
+    var tokenindex = decodedcookie.indexOf(cookieName+"=");
+    var aftertokenindex = decodedcookie.slice(tokenindex);
+    var array = aftertokenindex.split("=");
+    return array[1]
+    }
+
+	alert(getCookie("test_cookie"));
+    
+    </script>
