@@ -15,6 +15,10 @@ function onMIDISuccess(midiAccess) {
     input.onmidimessage = getMIDIMessage;
 }
 
+function onMIDIFailure() {
+    console.log('Error: Could not access MIDI devices.');
+}
+
 function getMIDIMessage(message) {
   var command = message.data[0];
   var note = message.data[1];
