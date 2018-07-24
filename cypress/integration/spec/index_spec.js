@@ -6,11 +6,19 @@ context('Actions', () => {
   // https://on.cypress.io/interacting-with-elements
 
   it('button is on the screen', () => {
-    cy.contains('Button')
+    cy.get('input[name=username]')
+       .type('Rob')
+
+    cy.get('select[name=instrument]')
+       .select('Piano')
+
+    cy.get('#begin_jamming').submit()
+
+     cy.url().should('eq', 'jamming.html')
+     cy.contains('Welcome, Rob')
   })
 
-  it('can click the button', () => {
-    cy.get("Button").click()
-  })
+
+
 
 });
