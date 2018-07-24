@@ -1,5 +1,15 @@
 'use strict';
 
+// Request MIDI access
+if (navigator.requestMIDIAccess) {
+    console.log('This browser supports WebMIDI!');
+
+    navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+
+} else {
+    console.log('WebMIDI is not supported in this browser.');
+}
+
 function onMIDISuccess(midiAccess) {
   for (var input of midiAccess.inputs.values())
     input.onmidimessage = getMIDIMessage;
