@@ -16,7 +16,12 @@
     <script src="config/firebase_config.js"></script>
 
 <script>
+
+var midi = [];
+
 document.onkeydown = function (e) {
+
+  midi.push({note: e.keyCode, velocity:0, delay:0})
   switch (e.keyCode) {
     case 65: //a
         play(48);
@@ -94,7 +99,12 @@ document.onkeydown = function (e) {
             <div id="j" onkeypress="play()" class="note white">J (b3)</div>
 
         </div>
-
+        <br/>
+        <br/>
+        <br/>
+        <button onclick="save()"> Save </button>
+        <br/>
+        <button onclick="play_midi()"> Play </button>
 
     </div>
 
@@ -121,6 +131,16 @@ document.onkeydown = function (e) {
     }
   });
 };
+
+function save(){
+  alert(midi);
+}
+
+function play_midi(){
+  for (var i = 0; i < midi.length; i++){
+    play(48+i);
+  }
+}
 
 
   </script>
