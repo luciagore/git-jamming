@@ -1,7 +1,18 @@
-function MidiStore(instrument) {
-  this._instrument = instrument;
+function MidiStore(instrument, mididata) {
+  this._id = 0
+  this._instrument = instrument
+  this._mididata = mididata
+
 }
 
-MidiStore.prototype.getInstrument = function () {
-  return this._instrument;
+MidiStore.prototype.getID = function () {
+  return this._id;
+};
+
+MidiStore.prototype.instrumentID = function () {
+  return this._instrument
+};
+
+MidiStore.prototype.mididata = function () {
+  return this._mididata
 };
