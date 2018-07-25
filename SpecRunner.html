@@ -6,10 +6,23 @@
 
   <link rel="shortcut icon" type="image/png" href="lib/jasmine-3.1.0/jasmine_favicon.png">
   <link rel="stylesheet" href="lib/jasmine-3.1.0/jasmine.css">
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+
 
   <script src="lib/jasmine-3.1.0/jasmine.js"></script>
   <script src="lib/jasmine-3.1.0/jasmine-html.js"></script>
   <script src="lib/jasmine-3.1.0/boot.js"></script>
+  <script>
+  var config = {
+    apiKey: "AIzaSyCSLZceImxi-lWBaRuiiNY7PMXHN1CPkT8",
+    authDomain: "testgitjamming.firebaseapp.com",
+    databaseURL: "https://testgitjamming.firebaseio.com",
+    projectId: "testgitjamming",
+    storageBucket: "",
+    messagingSenderId: "262798964243"
+  };
+firebase.initializeApp(config)
+</script>
 
   <!-- include source files here... -->
   <script src="src/MidiStore.js"></script>

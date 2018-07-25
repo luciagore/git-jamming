@@ -2,7 +2,6 @@ function MidiStore(instrument, mididata) {
   this._id = 0
   this._instrument = instrument
   this._mididata = mididata
-
 }
 
 MidiStore.prototype.getID = function () {
