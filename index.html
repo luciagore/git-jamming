@@ -10,13 +10,16 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script src="config/firebase_config.js"></script>
+    
     
 </head>
 <body>
 
   <form id='begin_jamming'>
     <label>User name: </label>
-    <input type="text" id='username'></input>
+    <input type="text" id='username' name="username"></input>
     <br/>
     <label>Instrument: </label>
     <select name='instrument' id='instrument'>
@@ -27,7 +30,7 @@
     <input type="submit" name='submit' value="Submit"> </input>
   </form>
 
-<!--
+<!-- 
   <button onclick="play()" name="button1">Piano</button>
 
   <button onclick="play()" name="button1">Button</button>
@@ -38,8 +41,8 @@
 
   MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
-    instrument: "acoustic_grand_piano",
-    //instrument: "synth_drum",
+    //instrument: "acoustic_grand_piano",
+    instrument: "synth_drum",
     onprogress: function(state, progress) {
       console.log(state, progress);
     },
@@ -57,7 +60,7 @@
 
 
   </script>
--->
+ -->
   <script type="text/javascript">
       $(document).ready(function(){
 
@@ -69,23 +72,26 @@
             var user = $("#username").val();
             var instrument = $('#instrument').val();
 
-            alert(instrument) 
+            var ref = firebase.database().ref().child('jamming_session');
+            var jam_session = {username: user, instrument: instrument};
+            ref.push(jam_session, function(error){
+              $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "jamming.html",
+                dataType: "json",
+                data: { username: user, instrument: instrument },
+                complete:
+                  function () {
+                      window.location = "jamming.html";
+                  }
+              });
+            });
+      });
 
-            $.ajax({
-              type: "POST",
-              contentType: "application/json; charset=utf-8",
-              url: "jamming.html",
-              dataType: "json",
-              data: { username: user, instrument: instrument }, // or the string: 'id=1'
-              complete:
-              function () {
-                  window.location = "jamming.html";
-              }
-           });
-
-            document.cookie = "test_cookie=1234567";           
-           });
-       });
+            
+      });
     </script>
 </body>
+
 </html>
