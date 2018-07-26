@@ -24,4 +24,7 @@ describe('MidiStore',function(){
     expect(midistore.mididata()).toEqual(mididata)
   })
 
+  it('holds a user', function(){
+    expect(midistore.getUser()).toEqual('lucy')
+  })
 });
