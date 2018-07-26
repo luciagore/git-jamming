@@ -7,7 +7,7 @@ describe('MidiStore',function(){
 									2: { note:1, veloctiy:2, delay:2 },
 									3: { note:1, veloctiy:2, delay:2 }
 								}
-	firebase.database().ref().child("midistore").push(mididata)
+	//firebase.database().ref().child("midistore").push(mididata)
 	
 	beforeEach(function(){
 		midistore = new MidiStore("instrument", mididata);
