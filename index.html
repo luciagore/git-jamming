@@ -16,43 +16,48 @@
     <script src="config/firebase_config.js"></script>
 
 <script>
+
+var midi = [];
+
 document.onkeydown = function (e) {
+
+  midi.push({note: e.keyCode, velocity:0, delay:0})
   switch (e.keyCode) {
     case 65: //a
-        play();
+        play(48);
         break;
     case 83: //s
-        play();
+        play(50);
     break;
     case 68: //d
-        play();
+        play(52);
     break;
     case 70: //f
-        play();
+        play(53);
     break;
     case 71: //g
-        play();
+        play(55);
     break;
     case 72: //h
-        play();
+        play(57);
     break;
     case 74: //j
-        play();
+        play(59);
     break;
     case 87: //w
-        play();
+        play(49);
     break;
     case 69: //e
-        play();
+        play(51);
     break;
     case 84: //t
-        play();
+        play(54);
     break;
     case 89: //y
-        play();
+        play(56);
     break;
     case 85: //u
-        play();
+        play(58);
     break;
     default:
         return; // Do nothing for the rest
@@ -94,14 +99,19 @@ document.onkeydown = function (e) {
             <div id="j" onkeypress="play()" class="note white">J (b3)</div>
 
         </div>
-
+        <br/>
+        <br/>
+        <br/>
+        <button onclick="save()"> Save </button>
+        <br/>
+        <button onclick="play_midi()"> Play </button>
 
     </div>
 
 
 
   <script type="text/javascript">
-  function play() {
+  function play(keynote) {
 
   MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
@@ -112,7 +122,7 @@ document.onkeydown = function (e) {
     },
     onsuccess: function() {
       var delay = 0; // play one note every quarter second
-      var note = 50; // the MIDI note
+      var note = keynote; // the MIDI note
       var velocity = 127; // how hard the note hits
       // play the note
       MIDI.setVolume(0, 127);
@@ -121,6 +131,16 @@ document.onkeydown = function (e) {
     }
   });
 };
+
+function save(){
+  alert(midi);
+}
+
+function play_midi(){
+  for (var i = 0; i < midi.length; i++){
+    play(48+i);
+  }
+}
 
 
   </script>
