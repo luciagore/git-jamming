@@ -2,23 +2,26 @@
 
 describe('MidiStore',function(){
 	var midistore;
+	var mididata = {0: { note:1, veloctiy:2, delay:2 },
+									1: { note:1, veloctiy:2, delay:2 },
+									2: { note:1, veloctiy:2, delay:2 },
+									3: { note:1, veloctiy:2, delay:2 }
+								}
+	firebase.database().ref().child("midistore").push(mididata)
+	
 	beforeEach(function(){
-		midistore = new MidiStore();
+		midistore = new MidiStore("instrument", mididata);
 	});
   it('has an ID', function(){
-    expect(midistore.getID()).toEqual("MIDI id")
+    expect(midistore.getID()).toEqual(0)
   })
 
   it('stores an instrument', function(){
-    expect(midistore.getID()).toEqual("some instrument")
+    expect(midistore.instrumentID()).toEqual("instrument")
   })
 
-  it('stores a single note', function(){
-    expect(midistore.getNotes()[0]).toEqual("one note in JSON obj or MIDI obj")
-  })
-
-  it('stores a multi notes', function(){
-    expect(midistore.getNotes()[0]).toEqual("list of MIDI notes")
+  it('stores a set of notes', function(){
+    expect(midistore.mididata()).toEqual(mididata)
   })
 
 });
