@@ -21,7 +21,9 @@ var midi = [];
 
 document.onkeydown = function (e) {
 
-  midi.push({note: e.keyCode, velocity:0, delay:0})
+  midi.push({note: e.keyCode, velocity:0, delay:0, time: e.timeStamp})
+  console.log(e.timeStamp)
+  console.log(midi)
   switch (e.keyCode) {
     case 65: //a
         play(48);
@@ -151,9 +153,15 @@ function play_midi(){
                  85: 58,
                  74: 59
                }
+      time_offset = midi[0].time;
+      start_time = 0
+
   for (var i = 0; i < midi.length; i++){
-  var element = midi[0+i].note
-    play(mapkey[element]);
+
+
+  var element = midi[0+i].note;
+  var timeelement = midi[0+i].time;
+    setTimeout(function () {play(mapkey[element])}, timeelement);
   }
 }
 
