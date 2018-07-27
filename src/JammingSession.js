@@ -27,6 +27,10 @@ JammingSession.prototype.addTrack = function(track) {
 	updateData(this._fb_ref, this._key, 'tracks', track, 'add')
 };
 
+JammingSession.prototype.deleteTrack = function(track) {
+	updateData(this._fb_ref, this._key, 'tracks', track, 'delete')
+};
+
 function getValues(ref, key, child_key){
 	data = []
 	ref.ref('JammingSession').on('value', 
@@ -47,9 +51,9 @@ function updateData(fb_ref, key, child_key, new_data, action){
 		console.log('from updatedata delete after', old_data)
 			break;
 		case 'add':
-		console.log('from updatedata add', old_data)
+		//console.log('from updatedata add', old_data)
 			old_data.push(new_data)
-		console.log('from updatedata add after', old_data)
+		//console.log('from updatedata add after', old_data)
 			break;
 		default:
 			break;

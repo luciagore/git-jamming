@@ -25,22 +25,25 @@ describe('mapping JammingSession to an object', function(){
                       child: function(name){return {set: function(value){
                         
 
-                        if(action == 'add'){
-                          console.log('vale in add', value[0])
-                          listofusers_mock.push(value[0])
+                        // if(action == 'add'){
+                        //   console.log('vale in add', value[0])
+                        //   //listofusers_mock.push(value[0])
                          
-                        }
-                        else if(action == 'delete') {
-                          console.log('vale in delete', value[0])
-                          const index = listofusers_mock.indexOf(value[0]);
-                          listofusers_mock.splice(index, 1);
-                        }
+                        // }
+                        // else if(action == 'delete') {
+                        //   console.log('vale in delete', value[0])
+                        //   const index = listofusers_mock.indexOf(value[0]);
+                        //   listofusers_mock.splice(index, 1);
+                        // }
                       }}}
 
                     };
   var fb_ref_double = {ref: function(Track){return push_double}};
 
   beforeEach(function(){
+
+    listofusers_mock = []
+    listoftracks_mock = []
 
     jamming_session = new JammingSession(fb_ref_double);
 
@@ -73,34 +76,35 @@ describe('mapping JammingSession to an object', function(){
   describe('users in JammingSession', function(){
 
       it("has users", function(){
+        console.log('has user test', jamming_session.getUsers())
         expect(jamming_session.getUsers()).toEqual([]);
       });
 
       it("adds users", function(){
-        action = 'add'
+        //action = 'add'
         console.log('add user test b4', jamming_session.getUsers())
         jamming_session.addUser(19)
-        console.log('add user test', jamming_session.getUsers())
+        //console.log('add user test', jamming_session.getUsers())
         expect(jamming_session.getUsers()).toEqual([19]);
       });
 
-      xit("deletes users", function(){
-        console.log('before add', listofusers_mock)
-        action = 'add'
+      it("deletes users", function(){
+        //console.log('before add', jamming_session.getUsers())
+        //action = 'add'
         jamming_session.addUser(1)
-        jamming_session.addUser(2)
-        console.log('after add', listofusers_mock)
-        action = 'delete'
+        jamming_session.addUser(23)
+        //console.log('after add', jamming_session.getUsers())
+       //action = 'delete'
         jamming_session.deleteUser(1)
 
-        console.log('after delete', listofusers_mock)
-        expect(jamming_session.getUsers()).toEqual([2]);
+        //console.log('after delete', jamming_session.getUsers())
+        expect(jamming_session.getUsers()).toEqual([23]);
       });
 
   });
 
 
-  xdescribe('tracks from JammingSession', function(){
+  describe('tracks from JammingSession', function(){
 
       it("has tracks", function(){
         expect(jamming_session.getTracks()).toEqual([]);
@@ -108,7 +112,20 @@ describe('mapping JammingSession to an object', function(){
 
       it("adds tracks", function(){
         jamming_session.addTrack(1)
-        expect(jamming_session.getTracks()).toEqual([]);
+        expect(jamming_session.getTracks()).toEqual([1]);
+      });
+
+      it("deletes tracks", function(){
+        console.log('before add', jamming_session.getTracks())
+        //action = 'add'
+        jamming_session.addTrack(1)
+        jamming_session.addTrack(23)
+        console.log('after add', jamming_session.getTracks())
+       //action = 'delete'
+        jamming_session.deleteTrack(1)
+
+        console.log('after delete', jamming_session.getTracks())
+        expect(jamming_session.getTracks()).toEqual([23]);
       });
 
   });
