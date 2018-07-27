@@ -15,7 +15,7 @@ delete tracks
 'use strict';
 
 describe('mapping JammingSession to an object', function(){
-  var action = ''
+
   var jamming_session;
   var listofusers_mock = []
   var listoftracks_mock = []
@@ -93,11 +93,8 @@ describe('mapping JammingSession to an object', function(){
         //action = 'add'
         jamming_session.addUser(1)
         jamming_session.addUser(23)
-        //console.log('after add', jamming_session.getUsers())
-       //action = 'delete'
         jamming_session.deleteUser(1)
 
-        //console.log('after delete', jamming_session.getUsers())
         expect(jamming_session.getUsers()).toEqual([23]);
       });
 
