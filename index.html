@@ -136,13 +136,31 @@ function save(){
   alert(midi);
 }
 
+
 function play_midi(){
+  var mapkey = { 65: 48,
+                 87: 49,
+                 83: 50,
+                 69: 51,
+                 68: 52,
+                 70: 53,
+                 84: 54,
+                 71: 55,
+                 89: 56,
+                 72: 57,
+                 85: 58,
+                 74: 59
+               }
   // for (var i = 0; i < midi.length; i++){
-  console.log(midi)
+  var element = midi[0].note
   console.log(midi[0].note)
-    play(midi[0].note);
+  console.log(mapkey)
+  console.log(element)
+  console.log(mapkey[element])
+    play(mapkey[element]);
   //}
 }
+
 
 
   </script>
