@@ -113,8 +113,6 @@ document.onkeydown = function (e) {
 
 
   <script type="text/javascript">
-  function play(keynote) {
-
   MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
     instrument: "acoustic_grand_piano",
@@ -123,16 +121,19 @@ document.onkeydown = function (e) {
       // console.log(state, progress);
     },
     onsuccess: function() {
-      var delay = 0; // play one note every quarter second
-      var note = keynote; // the MIDI note
-      var velocity = 127; // how hard the note hits
-      // play the note
-      MIDI.setVolume(0, 127);
-      MIDI.noteOn(0, note, velocity, delay);
-      MIDI.noteOff(0, note, delay + 0.75);
+      console.log('MIDI library is loaded')
     }
   });
-};
+
+  function play(keynote) {
+    var delay = 0; // play one note every quarter second
+    var note = keynote; // the MIDI note
+    var velocity = 127; // how hard the note hits
+    // play the note
+    MIDI.setVolume(0, 127);
+    MIDI.noteOn(0, note, velocity, delay);
+    MIDI.noteOff(0, note, delay + 1.75);
+  };
 
 function save(){
   alert(midi);
@@ -153,16 +154,57 @@ function play_midi(){
                  85: 58,
                  74: 59
                }
-      time_offset = midi[0].time;
-      start_time = 0
+  // var pos = midi.length;
+  // console.log(pos)
+  // console.log("before", midi)
+  // for (var i = pos; i-- > 0;) {
+  //  midi[midi.length -1].time -= (midi[midi.length -2].time;)
+  //  pos -= 1;
+  // }
+  console.log("after", midi)
 
-  for (var i = 0; i < midi.length; i++){
+
+ // var move = true
+ // var i = 0
+ // while(move){
+ //
+ //   var element = midi[i].note;
+ //   var timeelement = midi[i].time;
+ //
+ //   setTimeout(function () {
+ //     console.log(element);
+ //     break
+ //      }, 1000);
+ //   }
+ //
+ //
+ // }
 
 
-  var element = midi[0+i].note;
-  var timeelement = midi[0+i].time;
-    setTimeout(function () {play(mapkey[element])}, timeelement);
-  }
+ //  for(var i = 0; i < 10 && move; i++){
+ //    console.log(11)
+ //    move = false
+ //    console.log(21)
+ //    setTimeout(function () {
+ //  //   move = true
+ //  console.log(31)
+ //     console.log(i)
+ //     move = true
+ //   console.log(41)
+ // }, 1000);
+ //     console.log(i)
+ //
+ //  }
+  // var move = true;
+  // for (var i = 0; i < midi.length && move; i++){
+  //   var element = midi[i].note;
+  //   //console.log(element)
+  //   var timeelement = midi[i].time;
+  //   move = false;
+  //   setTimeout(function () {console.log(element);
+  //   move = true
+  // console.log(move)}, 1000);
+  //   }
 }
 
 
