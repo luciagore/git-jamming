@@ -1,32 +1,12 @@
 'use strict';
 
-xdescribe('Track', function(){
-  var track;
-
-  beforeEach(function(){
-    track = new Track()
-  });
-
-  it("will hold midi_id's", function(){
-    expect(track.midi_id()).toEqual([])
-  });
-
-  it("adds hold midi_id's", function(){
-    track.add_midi(1);
-    expect(track.midi_id()).toEqual([1])
-  });
-
-
-
-});
-
 describe('mapping Track to an object', function(){
   var listofMidis_mock = [];
 
   var push_double = {push: function(midi_ids){return {key: 'SOME_RANDOM_FB_KEY'}},
                       on: function(value){},
                       set: function(value){},
-                      child: function(name){return {set: function(value){listofMidis_mock.push(1), console.log('from SET in mock',listofMidis_mock)}}}
+                      child: function(name){return {set: function(value){listofMidis_mock.push(1)}}}
 
                     };
   var fb_ref_double = {ref: function(Track){return push_double}};
@@ -48,8 +28,8 @@ describe('mapping Track to an object', function(){
 
   it("adds midi_id's", function(){
     track.add_midi(1);
-    console.log('from the test', track.midi_ids())
     expect(listofMidis_mock).toEqual([1])
   });
   
 })
+
