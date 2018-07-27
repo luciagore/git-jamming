@@ -151,14 +151,10 @@ function play_midi(){
                  85: 58,
                  74: 59
                }
-  // for (var i = 0; i < midi.length; i++){
-  var element = midi[0].note
-  console.log(midi[0].note)
-  console.log(mapkey)
-  console.log(element)
-  console.log(mapkey[element])
+  for (var i = 0; i < midi.length; i++){
+  var element = midi[0+i].note
     play(mapkey[element]);
-  //}
+  }
 }
 
 
