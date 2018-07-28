@@ -1,0 +1,51 @@
+
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript">
+
+		var recording = false;
+
+		function record(){
+			// Get the checkbox
+		  var checkBox = document.getElementById("recording");
+		  // Get the output text
+		  var text = document.getElementById("text");
+
+		  // If the checkbox is checked, display the output text
+		  if (checkBox.checked == true){
+		    text.innerHTML = "Recording";
+		    recording = true;
+		    keystroke_events.push({key: 'start', timeStamp: new Date().getTime()});
+		  } else {
+		    text.innerHTML = "Start recording";
+		    recording = false;
+		    keystroke_events.push({key: 'end', timeStamp: new Date().getTime()});
+		  }
+		};
+
+
+		var keystroke_events = []
+
+		document.onkeydown = function (e) {
+
+			if(recording){
+  				keystroke_events.push({key: e.keyCode, timeStamp: new Date().getTime()});
+  			}
+		};
+	</script>
+
+</head>
+<body>
+
+<input type="checkbox" id='recording' name="recording" onclick="record()">
+	<p id='text'> Start recording</p>
+</input>
+
+<button id='saved_keys' onclick="show()">Show</button>
+
+
+
+</body>
+</html>
