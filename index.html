@@ -22,6 +22,7 @@ var midi = [];
 document.onkeydown = function (e) {
 
   midi.push({note: e.keyCode, velocity:0, delay:0})
+
   switch (e.keyCode) {
     case 65: //a
         play(48);
@@ -64,6 +65,7 @@ document.onkeydown = function (e) {
   }
 };
 </script>
+
 
 </head>
 <body>
@@ -111,36 +113,65 @@ document.onkeydown = function (e) {
 
 
   <script type="text/javascript">
-  function play(keynote) {
 
-  MIDI.loadPlugin({
+    MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
     instrument: "acoustic_grand_piano",
     // instrument: "synth_drum",
     onprogress: function(state, progress) {
-      console.log(state, progress);
+      // console.log(state, progress);
     },
     onsuccess: function() {
-      var delay = 0; // play one note every quarter second
+      console.log('MIDI library ready')
+    }
+  });
+
+  function play(keynote) {
+    var delay = 0; // play one note every quarter second
       var note = keynote; // the MIDI note
       var velocity = 127; // how hard the note hits
       // play the note
       MIDI.setVolume(0, 127);
       MIDI.noteOn(0, note, velocity, delay);
       MIDI.noteOff(0, note, delay + 0.75);
-    }
-  });
+ 
 };
 
 function save(){
   alert(midi);
 }
 
+
 function play_midi(){
+  var mapkey = { 65: 48,
+                 87: 49,
+                 83: 50,
+                 69: 51,
+                 68: 52,
+                 70: 53,
+                 84: 54,
+                 71: 55,
+                 89: 56,
+                 72: 57,
+                 85: 58,
+                 74: 59
+               }
   for (var i = 0; i < midi.length; i++){
-    play(48+i);
+  var element = midi[0+i].note
+    //play(mapkey[element]);
   }
+
+  (function playloop(i){
+    setTimeout(function(){
+      if(--i){
+        play(mapkey[midi[i].note])
+        playloop(i);
+      }
+    }, midi[i].length);
+  })(midi.length-1);
 }
+
+
 
 
   </script>
