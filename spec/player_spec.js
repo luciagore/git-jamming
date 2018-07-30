@@ -23,7 +23,7 @@ describe('mapping PLayer to an object', function(){
 
   it("will hold user_id's", function(){
    
-    expect(player.user_ids()).toEqual([])
+    expect(player.getUsers()).toEqual([])
   });
 
   it("adds user_id's", function(){

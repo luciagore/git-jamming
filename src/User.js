@@ -9,11 +9,11 @@ User.prototype.getKey = function () {
 
 
 User.prototype.getName = function () {
-  return getValues(this._fb_ref, this._key, 'name')
+  return getValues_u(this._fb_ref, this._key, 'name')
 };
 
 
-function getValues(ref, key, child_key){
+function getValues_u(ref, key, child_key){
 	data = []
 	ref.ref('User').on('value', 
 		function(snapshot) {
