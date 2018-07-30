@@ -22,6 +22,6 @@ MidiStore.prototype.getUser = function () {
   return this._user_id
 };
 
-// MidiStore.prototype.updateMidi = function (newdata) {
-//
-// };
+MidiStore.prototype.updateMidi = function (newdata) {
+
+};

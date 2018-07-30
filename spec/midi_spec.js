@@ -18,7 +18,7 @@ describe('MidiStore',function(){
   var fb_ref_double = {ref: function(MidiStore){return push_double}};
 
 	beforeEach(function(){
-		midistore = new MidiStore("piano", 'lucy', mididata, fb_ref_double);
+		midistore = new MidiStore(fb_ref_double, "piano", 'lucy', mididata);
 	});
   it('has an ID', function(){
     expect(midistore.getKey()).toEqual("SOME_RANDOM_FB_KEY")
@@ -36,8 +36,11 @@ describe('MidiStore',function(){
     expect(midistore.getUser()).toEqual('lucy')
   })
 
-	xit('updates midi', function(){
-		midistore.updateMidi(new_mididata);
+	it('updates midi', function(){
+		var addition = { note:1, delay:2 };
+		midistore.updateMidi(addition);
+		mididata[4] = addition
+		var new_mididata = mididata
 		expect(midistore.getMididata()).toEqual(new_mididata)
 	})
 });
