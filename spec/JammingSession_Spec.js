@@ -45,10 +45,11 @@ describe('mapping JammingSession to an object', function(){
     listofusers_mock = []
     listoftracks_mock = []
 
-    jamming_session = new JammingSession(fb_ref_double);
+    jamming_session = new JammingSession(fb_ref_double, "My jamming session");
 
     spyOn(jamming_session, 'getUsers').and.returnValue(listofusers_mock);
     spyOn(jamming_session, 'getTracks').and.returnValue(listoftracks_mock);
+    spyOn(jamming_session, 'getName').and.returnValue("My jamming session");
   
     spyOn(window, 'getValues').and.callFake(function(ref, key, child_key) {
       var array;
@@ -71,6 +72,10 @@ describe('mapping JammingSession to an object', function(){
 
   it("has an ID", function(){
     expect(jamming_session.getKey()).toEqual("SOME_RANDOM_FB_KEY");
+  });
+
+   it("has an Name", function(){
+    expect(jamming_session.getName()).toEqual("My jamming session");
   });
 
   describe('users in JammingSession', function(){
