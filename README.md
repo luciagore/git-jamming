@@ -4,11 +4,9 @@
 
 Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to share a recording by joining a jamming session with other users, where they can then create music together.
 
-Please visit our site here:
-
 ### <a name="instructions"></a>Instructions to use the website
-1. Our application is on this website.
-2. One you have the page loaded - enter your name and the instrument you would like to use. You will also need to specify whether you are joining an existing Jamming Session or starting a new one. This will take you to another page where you can start to create music.
+1. Our application is on this website, supported on Firefox: gitjamming8.herokuapp.com
+2. Once you have the page loaded - enter your name and the instrument you would like to use. You will also need to specify whether you are joining an existing Jamming Session or starting a new one. This will take you to another page where you can start to create music.
 3. Play the keyboard to hear music - press the `play session` button to hear the music already stored on the jamming session. Once you are ready - press `record` and whatever you play from then on will be stored. You can press `record` again to stop the recording.
 4. To listen to the track you've created (which will be played over the current jamming session if it exists) - press `play`.
 5. Click the button Sign Out if you want to log in as a new player
@@ -53,11 +51,11 @@ I would like to store tracks to the database.
 
 ### <a name="one"></a>Week One Summary
 
-We we given our groups and the focus of our group project (Music/Product) on Monday 23rd July and from there began to discuss what we wanted to achieve - align our goals - and begin the planning process. By the end of Monday we had decided on our idea and that our MVP would be to have buttons that could play sounds by converting MIDI data. We thought it would be both challenging and interesting to learn more about MIDI data, audio files seemed a little bit too simple, and it would also allow us to use the same code with various different instruments which might help us going forward with the project.
+We given our groups and the focus of our group project (Music/Product) on Monday 23rd July and from there began to discuss what we wanted to achieve - align our goals - and begin the planning process. By the end of Monday we had decided on our idea and that our MVP would be to have buttons that could play sounds triggered with MIDI inputs and sent through the browser. We thought it would be both challenging and interesting to learn more about MIDI data, audio files seemed a little bit too simple, and it would also allow us to use the same code with various different instruments which might help us going forward with the project.
 
 We set up a Trello Board, Git repo, and worked together in pairs throughout the week to complete user stories to help keep our goals in line with a good user experience. We worked on the musical side of the application alongside a firebase non-relational database (none of us had used this before and again we liked the idea of something to challenge us). This was in order that once the music was set up correctly we would then be able to work towards storing the tracks, playing them back and eventually allowing several users to work together on them.
 
-At the end of the first week we have been able to create our MVP and build upon it. We have a full piano keyboard, with front end design, and the ability to store the track (not yet to the database) and play each note back in the order and speed that it was originally played. We have also created a database with methods to add and delete from the database which are fully tested.
+At the end of the first week we have been able to create our MVP and build upon it. We have a full piano keyboard with 12 notes, with front end design, and the ability to store the track (not yet to the database) and play each note back in the order and speed that it was originally played. We have also created a database with methods to add and delete from the database which are fully tested.
 
 ### <a name="two"></a>Week Two Goals
 
