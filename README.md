@@ -2,7 +2,7 @@
 
 [Instructions](#instructions) | [User Stories](#user) | [Week One Summary](#one) | [Week Two Goals](#two) | [Pictures/Screenshots](#pictures)
 
-Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to join a jamming session with other users, and create music together.
+Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to share a recording by joining a jamming session with other users, where they can then create music together.
 
 Please visit our site here:
 
