@@ -28,6 +28,98 @@
     <input type="submit" name='submit' value="Submit"> </input>
   </form>
 
+  <div id="kbd">
+
+        <div id="keys">
+
+            <div id="a" onkeypress="play()" class="note white">A (c3)</div>
+            <div id="w" onkeypress="play()" class="note black">W</div>
+            <div id="s" onkeypress="play()" class="note white">S (d3)</div>
+            <div id="e" onkeypress="play()" class="note black">E</div>
+            <div id="d" onkeypress="play()" class="note white">D (e3)</div>
+            <div id="f" onkeypress="play()" class="note white">F (f3)</div>
+            <div id="t" onkeypress="play()" class="note black">T</div>
+            <div id="g" onkeypress="play()" class="note white">G (g3)</div>
+            <div id="y" onkeypress="play()" class="note black">Y</div>
+            <div id="h" onkeypress="play()" class="note white">H (a3)</div>
+            <div id="u" onkeypress="play()" class="note black">U</div>
+            <div id="j" onkeypress="play()" class="note white">J (b3)</div>
+
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <button onclick="save()"> Save </button>
+        <br/>
+        <button onclick="play_midi()"> Play </button>
+
+    </div>
+
+
+
+  <script type="text/javascript">
+
+    MIDI.loadPlugin({
+    soundfontUrl: "./soundfont/",
+    instrument: "acoustic_grand_piano",
+    // instrument: "synth_drum",
+    onprogress: function(state, progress) {
+      // console.log(state, progress);
+    },
+    onsuccess: function() {
+      console.log('MIDI library ready')
+    }
+  });
+
+  function play(keynote) {
+      var delay = 0; // play one note every quarter second
+      var note = keynote; // the MIDI note
+      var velocity = 127; // how hard the note hits
+      // play the note
+      MIDI.setVolume(0, 127);
+      MIDI.noteOn(0, note, velocity, delay);
+      MIDI.noteOff(0, note, delay + 0.75);
+
+};
+
+function save(){
+  alert(midi);
+}
+
+
+function play_midi(){
+  var mapkey = { 65: 48,
+                 87: 49,
+                 83: 50,
+                 69: 51,
+                 68: 52,
+                 70: 53,
+                 84: 54,
+                 71: 55,
+                 89: 56,
+                 72: 57,
+                 85: 58,
+                 74: 59
+               }
+  for (var i = 0; i < midi.length; i++){
+  var element = midi[0+i].note
+    //play(mapkey[element]);
+  }
+
+  (function playloop(i){
+    setTimeout(function(){
+      if(--i){
+        play(mapkey[midi[i].note])
+        playloop(i);
+      }
+    }, midi[i].length);
+  })(midi.length-1);
+}
+
+
+
+
+  </script>
   <script type="text/javascript">
       $(document).ready(function(){
 

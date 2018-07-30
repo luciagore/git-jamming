@@ -6,8 +6,13 @@
 	<script src="webmidi.js" type="text/javascript"></script>
     <script src="inc/shim/Base64.js" type="text/javascript"></script>
     <script src="inc/shim/Base64binary.js" type="text/javascript"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+		<script src="config/firebase_config.js"></script>
+		<script src="src/MidiStore.js" type="text/javascript"></script>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
     <script src="config/firebase_config.js"></script>
@@ -61,6 +66,7 @@
 
 	<button id='saved_keys' onclick="show()">Show</button>
 	<button id='log' onclick="log()">Play</button>
+	<button id='save_recording' onclick="save()">Save Recording</button>
 
 	<div id='show_div'></div>
 </div>
@@ -82,7 +88,7 @@
     	document.getElementById('form').style.visibility = 'visible'
       console.log('MIDI library ready')
     }
-    
+
   });
 
   function mapkey(key){
@@ -103,7 +109,7 @@
     };
 
   function play(keynote) {
-  	
+
     var delay = 0; // play one note every quarter second
       var note = keynote; // the MIDI note
       var velocity = 127; // how hard the note hits
@@ -111,7 +117,7 @@
       MIDI.setVolume(0, 127);
       MIDI.noteOn(0, note, velocity, delay);
       MIDI.noteOff(0, note, delay + 0.75);
- 
+
 	};
 
 
@@ -119,10 +125,11 @@
 	var start_recording;
 	var end_recording;
 	var keystroke_events = [];
+
 	var jam_session = {};
 	var fb_ref = firebase.database();
-	var can_play = false; 
-
+	var can_play = false;
+ 
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
 	            event.preventDefault();
@@ -158,8 +165,6 @@
 	            //   });
 	            // });
 
-
-
 	            jam_session = {username: user, instrument: instrument};
 	            var user = new User(fb_ref, user);
 	            var player = new Player(fb_ref);
@@ -173,6 +178,7 @@
 
 	            document.getElementById('form').style.visibility = 'hidden'
  		    	document.getElementById('container').style.visibility = 'visible'
+
  		    	can_play = true;
 	            
 	      	});
@@ -202,7 +208,7 @@
 	    end_recording = new Date().getTime();
 	  }
 	};
-	
+
 	document.onkeydown = function (e) {
 		if(can_play)
 			play(mapkey(e.keyCode))
@@ -210,7 +216,7 @@
 		if(recording){
 				keystroke_events.push(
 					{
-						key: e.keyCode, 
+						key: e.keyCode,
 						timeStamp: new Date().getTime(),
 						delay: new Date().getTime() - start_recording
 				});
@@ -229,8 +235,8 @@
 	}
 
 	function log(){
-		
-		for(i = 0; i<keystroke_events.length; i++){	
+
+		for(i = 0; i<keystroke_events.length; i++){
 			let key = keystroke_events[i].key;
 			let delay = keystroke_events[i].delay
 			setTimeout(function(){
@@ -241,6 +247,19 @@
 		}
 	}
 
+
+	function save(){
+		mididata = []
+		for(i = 0; i<keystroke_events.length; i++){
+			let key = keystroke_events[i].key;
+			let delay = keystroke_events[i].delay
+			mididata.push({key: key, delay: delay})
+		};
+		var user = jam_session['username'];
+		var instrument = jam_session['instrument'];
+		var midistore = new MidiStore(firebase.database(), instrument, user_id, mididata);
+	}
+
 	function newSession(that) {
         if (that.value == "new") {
             document.getElementById("create").style.display = "block";
@@ -248,6 +267,7 @@
             document.getElementById("create").style.display = "none";
         }
     }
+
 	</script>
 
 
