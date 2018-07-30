@@ -1,6 +1,6 @@
 'use strict';
 
-describe('mapping Track to an object', function(){
+describe('mapping User to an object', function(){
   var listofMidis_mock = [];
 
   var push_double = {push: function(midi_ids){return {key: 'SOME_RANDOM_FB_KEY'}},
@@ -11,31 +11,20 @@ describe('mapping Track to an object', function(){
                     };
   var fb_ref_double = {ref: function(Track){return push_double}};
 
-  var track;
+  var user;
 
   beforeEach(function(){
-    track = new Track(fb_ref_double);
-
-    spyOn(track, 'getName').and.returnValue("SOME_RANDOM_NAME");
+    user = new User(fb_ref_double, "new_user");
+    spyOn(user, 'getKey').and.returnValue("SOME_RANDOM_KEY");
+    spyOn(user, 'getName').and.returnValue("new_user");
   });
 
   it("has an ID", function(){
-    expect(track.getKey()).toEqual("SOME_RANDOM_FB_KEY");
+    expect(user.getKey()).toEqual("SOME_RANDOM_KEY");
   });
 
   it("has a name", function(){
-    expect(track.getName()).toEqual("SOME_RANDOM_NAME");
-  });
-
-  it("will hold midi_id's", function(){
-   
-    expect(track.midi_ids()).toEqual([])
-  });
-
-  it("adds midi_id's", function(){
-    track.add_midi(1);
-    expect(listofMidis_mock).toEqual([1])
+    expect(user.getName()).toEqual("new_user");
   });
   
 })
-

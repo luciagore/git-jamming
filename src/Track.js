@@ -7,8 +7,12 @@ Track.prototype.getKey = function () {
   return this._key
 };
 
+Track.prototype.getName = function () {
+  return getValues(this._fb_ref, this._key, 'name')
+};
+
 Track.prototype.add_midi = function (midi_id) {
-	var old_midi_ids = getValues(this._fb_ref, this._key);
+	var old_midi_ids = getValues(this._fb_ref, this._key, 'midi_ids');
 	
 	old_midi_ids.push(midi_id)
 
@@ -16,16 +20,16 @@ Track.prototype.add_midi = function (midi_id) {
 };
 
 Track.prototype.midi_ids = function () {
-	return getValues(this._fb_ref, this._key);
+	return getValues(this._fb_ref, this._key, 'midi_ids');
 };
 
-function getValues(ref, key){
-	midi_ids = []
+function getValues(ref, key, child_key){
+	data = []
 	ref.ref('Track').on('value', 
 		function(snapshot) {
 			var temp_values = snapshot.val()
-			midi_ids = temp_values[key]['midi_ids']
+			data = temp_values[key][child_key]
 	});
 
-	return midi_ids;
+	return data;
 }

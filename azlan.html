@@ -9,6 +9,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script src="config/firebase_config.js"></script>
+
+    <script src="src/JammingSession.js"></script>
+    <script src="src/Track.js"></script>
+    <script src="src/User.js"></script>
+    <script src="src/Player.js"></script>
+
 	
 </head>
 <body>
@@ -24,7 +32,7 @@
       <option>Drums</option>
    </select>
    <br/>
-   <label>Instrument: </label>
+   <label>Jamming Session: </label>
    <select name='jSession' id='jSession' onchange="newSession(this)">
       <option value='js1'>js1</option>
       <option value='js2'>js2</option>
@@ -111,14 +119,29 @@
 	var start_recording;
 	var end_recording;
 	var keystroke_events = [];
-	var jam_session = {} 
+	var jam_session = {};
+	var fb_ref = firebase.database();
+	var can_play = false; 
 
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
 	            event.preventDefault();
-	            var user = $("#username").val();
+
+	            var jamSession_name;
+	            var track_name;
+				var user = $("#username").val();
 	            var instrument = $('#instrument').val();
 
+	            if ($("#jSession").val() == 'new'){
+	            	jamSession_name = $('#new_session').val();
+
+	            } else {
+	            	jamSession_name = $("#jSession").val();
+	            }
+	            
+
+
+	           
 	            // var ref = firebase.database().ref().child('jamming_session');
 	            // var jam_session = {username: user, instrument: instrument};
 	            // ref.push(jam_session, function(error){
@@ -135,9 +158,22 @@
 	            //   });
 	            // });
 
+
+
 	            jam_session = {username: user, instrument: instrument};
+	            var user = new User(fb_ref, user);
+	            var player = new Player(fb_ref);
+	            player.add_user(user.getKey());
+
+	            var track = new Track(fb_ref, "new track");
+
+	            var js = new JammingSession(fb_ref, jamSession_name)
+	            js.addTrack(track.getKey());
+	            js.addUser(player.getKey());
+
 	            document.getElementById('form').style.visibility = 'hidden'
  		    	document.getElementById('container').style.visibility = 'visible'
+ 		    	can_play = true;
 	            
 	      	});
       });
@@ -168,7 +204,8 @@
 	};
 	
 	document.onkeydown = function (e) {
-		play(mapkey(e.keyCode))
+		if(can_play)
+			play(mapkey(e.keyCode))
 
 		if(recording){
 				keystroke_events.push(
