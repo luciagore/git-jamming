@@ -75,6 +75,6 @@ At this stage, we will aim to first allow a different user to access the same tr
 ### Created by:
 
 - [Arsalan Ahmed](https://github.com/arsalanabc)
-- [Diego Fontecilla](https://github.com/ridginald)
+- [Diego Fontecilla](https://github.com/diegofontecilla)
 - [Lucia Gore](https://github.com/luciagore)
-- [Daniel Ridgway](https://github.com/diegofontecilla)
+- [Daniel Ridgway](https://github.com/ridginald)
