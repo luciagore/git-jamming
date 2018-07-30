@@ -129,6 +129,7 @@
 	var jam_session = {};
 	var fb_ref = firebase.database();
 	var can_play = false;
+	var mididata = []
  
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
@@ -136,7 +137,7 @@
 
 	            var jamSession_name;
 	            var track_name;
-				var user = $("#username").val();
+				var username = $("#username").val();
 	            var instrument = $('#instrument').val();
 
 	            if ($("#jSession").val() == 'new'){
@@ -165,8 +166,8 @@
 	            //   });
 	            // });
 
-	            jam_session = {username: user, instrument: instrument};
-	            var user = new User(fb_ref, user);
+	            jam_session = {username: username, instrument: instrument};
+	            var user = new User(fb_ref, username);
 	            var player = new Player(fb_ref);
 	            player.add_user(user.getKey());
 
@@ -175,6 +176,12 @@
 	            var js = new JammingSession(fb_ref, jamSession_name)
 	            js.addTrack(track.getKey());
 	            js.addUser(player.getKey());
+
+	            /*var midistore = new MidiStore(fb_ref, instrument, user.getKey(), 
+	            	mididata
+	            	);
+				*/
+	            //track.add_midi(midistore.getKey());
 
 	            document.getElementById('form').style.visibility = 'hidden'
  		    	document.getElementById('container').style.visibility = 'visible'
@@ -255,9 +262,10 @@
 			let delay = keystroke_events[i].delay
 			mididata.push({key: key, delay: delay})
 		};
-		var user = jam_session['username'];
+		//var user_id = user.getKey();
 		var instrument = jam_session['instrument'];
-		var midistore = new MidiStore(firebase.database(), instrument, user_id, mididata);
+		var midistore = new MidiStore(fb_ref, instrument, "user_id", mididata);
+	
 	}
 
 	function newSession(that) {

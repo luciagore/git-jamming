@@ -12,7 +12,7 @@ describe('MidiStore',function(){
 	var push_double = {push: function(midi_ids){return {key: 'SOME_RANDOM_FB_KEY'}},
                       on: function(value){},
                       set: function(value){},
-                      child: function(name){return {set: function(value){listofUsers_mock.push(1)}}}
+                      child: function(name){return {set: function(value){}}}
 
                     };
   var fb_ref_double = {ref: function(MidiStore){return push_double}};
