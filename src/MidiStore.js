@@ -1,4 +1,4 @@
-function MidiStore(instrument, user_id, mididata, fb_ref) {
+function MidiStore(fb_ref, instrument, user_id, mididata) {
   this._instrument = instrument;
   this._fb_ref = fb_ref;
   this._mididata = mididata
