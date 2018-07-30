@@ -65,13 +65,14 @@ At this stage, we will aim to first allow a different user to access the same tr
 
 ### Pictures/Screenshots of the Application
 
-   - Languages: JavaScript (and jQuery), HTML/CSS
-   - Databases: Firebase
-   - Testing Suites: Jasmine, Cypress
-   - CD: Heroku
+
 
 ### Languages/Frameworks Used
 
+- Languages: JavaScript (and jQuery), HTML/CSS
+- Database: Firebase
+- Testing Suites: Jasmine, Cypress
+- CD: Heroku
 
 ### Created by:
 
