@@ -349,7 +349,7 @@ MIDI.Player = MIDI.Player || {};
 	*/
 
 	root.loadResource = function(opts) {
-		var instruments = opts.instruments || opts.instrument || 'acoustic_grand_piano' || 'steel_drums';
+		var instruments = opts.instruments || opts.instrument || 'acoustic_grand_piano' || 'steel_drums' || 'electric_bass_finger';
 		///
 		if (typeof instruments !== 'object') {
 			if (instruments || instruments === 0) {
