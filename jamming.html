@@ -27,12 +27,12 @@ function play(keynote) {
 MIDI.loadPlugin({
   soundfontUrl: "./soundfont/",
   // instrument: "acoustic_grand_piano",
-  instrument: "synth_drum",
+  instrument: "steel_drums",
   onprogress: function(state, progress) {
     // console.log(state, progress);
   },
   onsuccess: function() {
-    MIDI.programChange(0, MIDI.GM.byName["synth_drum"].number);
+    MIDI.programChange(0, MIDI.GM.byName["steel_drums"].number);
     var delay = 0; // play one note every quarter second
     var note = keynote; // the MIDI note
     var velocity = 127; // how hard the note hits
