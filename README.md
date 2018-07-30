@@ -1,12 +1,12 @@
 ## Git Jamming
 
-[Instructions](#instructions to use the website) | [User Stories](#User stories) | [Week One Summary](#Week One Summary) | [Week Two Goals](#Week Two Goals) | [Pictures/Screenshots](#Pictures/Screenshots of the Application)
+[Instructions](#instructions) | [User Stories](#user) | [Week One Summary](#one) | [Week Two Goals](#two) | [Pictures/Screenshots](#pictures)
 
 Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to join a jamming session with other users, and create music together.
 
 Please visit our site here:
 
-### Instructions to use the website
+### <a name="instructions"></a>Instructions to use the website
 1. Our application is on this website.
 2. One you have the page loaded - enter your name and the instrument you would like to use. You will also need to specify whether you are joining an existing Jamming Session or starting a new one. This will take you to another page where you can start to create music.
 3. Play the keyboard to hear music - press the `play session` button to hear the music already stored on the jamming session. Once you are ready - press `record` and whatever you play from then on will be stored. You can press `record` again to stop the recording.
@@ -14,7 +14,7 @@ Please visit our site here:
 5. Click the button Sign Out if you want to log in as a new player
 6. Click the button Leave Session if you would like to start a new jamming session but continue to use the website.
 
-### User stories:
+### <a name="user"></a>User Stories
 ```
 As a user
 So that I can make a sound from a computer,
@@ -51,7 +51,7 @@ So that I can store multiple tracks,
 I would like to store tracks to the database.
 ```
 
-### Week One Summary:
+### <a name="one"></a>Week One Summary
 
 We we given our groups and the focus of our group project (Music/Product) on Monday 23rd July and from there began to discuss what we wanted to achieve - align our goals - and begin the planning process. By the end of Monday we had decided on our idea and that our MVP would be to have buttons that could play sounds by converting MIDI data. We thought it would be both challenging and interesting to learn more about MIDI data, audio files seemed a little bit too simple, and it would also allow us to use the same code with various different instruments which might help us going forward with the project.
 
@@ -59,11 +59,11 @@ We set up a Trello Board, Git repo, and worked together in pairs throughout the 
 
 At the end of the first week we have been able to create our MVP and build upon it. We have a full piano keyboard, with front end design, and the ability to store the track (not yet to the database) and play each note back in the order and speed that it was originally played. We have also created a database with methods to add and delete from the database which are fully tested.
 
-### Week Two Goals:
+### <a name="two"></a>Week Two Goals
 
 At this stage, we will aim to first allow a different user to access the same track within a 'jamming session', so that two different users can store their updates and harmonies onto the track and work together on it. We will of course aim to have everything fully connected to the database too. We will then make sure that multiple users can work on multiple tracks and that there is a simple user friendly way to access these different elements of the Application. Finally we will try to implement different instruments - and perhaps even a chatroom feature to allow users working in the same 'jamming session' to communicate with each other in real time.
 
-### Pictures/Screenshots of the Application
+### <a name="pictures"></a>Pictures/Screenshots of the Application
 
 
 
@@ -76,7 +76,7 @@ At this stage, we will aim to first allow a different user to access the same tr
 
 ### Created by:
 
-[Arsalan Ahmed](https://github.com/arsalanabc)
-[Diego Fontecilla](https://github.com/ridginald)
-[Lucia Gore](https://github.com/luciagore)
-[Daniel Ridgway](https://github.com/diegofontecilla)
+- [Arsalan Ahmed](https://github.com/arsalanabc)
+- [Diego Fontecilla](https://github.com/ridginald)
+- [Lucia Gore](https://github.com/luciagore)
+- [Daniel Ridgway](https://github.com/diegofontecilla)
