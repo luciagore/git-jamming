@@ -1,0 +1,193 @@
+
+<html>
+<head>
+	<title></title>
+
+	<script src="webmidi.js" type="text/javascript"></script>
+    <script src="inc/shim/Base64.js" type="text/javascript"></script>
+    <script src="inc/shim/Base64binary.js" type="text/javascript"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	
+</head>
+<body>
+<div id='loading'> Loading Midi ... </div>
+<div id='form' style="visibility: hidden;">
+	<form id='begin_jamming'>
+    <label>User name: </label>
+    <input type="text" id='username' name="username"></input>
+    <br/>
+    <label>Instrument: </label>
+    <select name='instrument' id='instrument'>
+      <option>Piano</option>
+      <option>Drums</option>
+    </select>
+    <br/>
+    <input type="submit" name='submit' value="Submit"> </input>
+  </form>
+</div>
+
+
+<div id='container' style="visibility: hidden;">
+	<input type="checkbox" id='recording' name="recording" onclick="record()">
+		<p id='text'> Start recording</p>
+	</input>
+
+	<button id='saved_keys' onclick="show()">Show</button>
+	<button id='log' onclick="log()">Play</button>
+
+	<div id='show_div'></div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    MIDI.loadPlugin({
+    soundfontUrl: "./soundfont/",
+    instrument: "acoustic_grand_piano",
+    // instrument: "synth_drum",
+    onprogress: function(state, progress) {
+      // console.log(state, progress);
+    },
+    onsuccess: function() {
+
+    	document.getElementById('loading').style.visibility = 'hidden'
+    	document.getElementById('form').style.visibility = 'visible'
+      console.log('MIDI library ready')
+    }
+    
+  });
+
+  function mapkey(key){
+  	var mapping = { 65: 48,
+                 87: 49,
+                 83: 50,
+                 69: 51,
+                 68: 52,
+                 70: 53,
+                 84: 54,
+                 71: 55,
+                 89: 56,
+                 72: 57,
+                 85: 58,
+                 74: 59
+               };
+    return mapping[key];
+    };
+
+  function play(keynote) {
+  	
+    var delay = 0; // play one note every quarter second
+      var note = keynote; // the MIDI note
+      var velocity = 127; // how hard the note hits
+      // play the note
+      MIDI.setVolume(0, 127);
+      MIDI.noteOn(0, note, velocity, delay);
+      MIDI.noteOff(0, note, delay + 0.75);
+ 
+	};
+
+
+	var recording = false;
+	var start_recording;
+	var end_recording;
+	var keystroke_events = [];
+	var jam_session = {} 
+
+	$(document).ready(function(){
+           $('#begin_jamming').submit(function(event){
+	            event.preventDefault();
+	            var user = $("#username").val();
+	            var instrument = $('#instrument').val();
+
+	            // var ref = firebase.database().ref().child('jamming_session');
+	            // var jam_session = {username: user, instrument: instrument};
+	            // ref.push(jam_session, function(error){
+	            //   $.ajax({
+	            //     type: "POST",
+	            //     contentType: "application/json; charset=utf-8",
+	            //     url: "jamming.html",
+	            //     dataType: "json",
+	            //     data: { username: user, instrument: instrument },
+	            //     complete:
+	            //       function () {
+	            //           window.location = "jamming.html";
+	            //       }
+	            //   });
+	            // });
+
+	            jam_session = {username: user, instrument: instrument};
+	            document.getElementById('form').style.visibility = 'hidden'
+ 		    	document.getElementById('container').style.visibility = 'visible'
+	            
+	      	});
+      });
+
+	function record(){
+		// Get the checkbox
+	  var checkBox = document.getElementById("recording");
+	  // Get the output text
+	  var text = document.getElementById("text");
+
+	  // If the checkbox is checked, display the output text
+	  if (checkBox.checked == true){
+	    text.innerHTML = "Recording";
+	    recording = true;
+	    keystroke_events.push({key: 'start', timeStamp: new Date().getTime(),
+		delay: 0
+		});
+	    start_recording = new Date().getTime();
+	  } else {
+	    text.innerHTML = "Start recording";
+	    recording = false;
+	    keystroke_events.push(
+	    	{key: 'end', timeStamp: new Date().getTime(),
+			delay: new Date().getTime() - start_recording
+			});
+	    end_recording = new Date().getTime();
+	  }
+	};
+	
+	document.onkeydown = function (e) {
+		play(mapkey(e.keyCode))
+
+		if(recording){
+				keystroke_events.push(
+					{
+						key: e.keyCode, 
+						timeStamp: new Date().getTime(),
+						delay: new Date().getTime() - start_recording
+				});
+			}
+	};
+
+	function show(){
+		var div = document.getElementById('show_div')
+		for(i = 0; i<keystroke_events.length; i++){
+			div.innerHTML += keystroke_events[i].key+
+			': '+
+			keystroke_events[i].timeStamp+' delay: '+
+			keystroke_events[i].delay+
+			'<br/>';
+		}
+	}
+
+	function log(){
+		
+		for(i = 0; i<keystroke_events.length; i++){	
+			let key = keystroke_events[i].key;
+			let delay = keystroke_events[i].delay
+			setTimeout(function(){
+				//console.log(keystroke_events);
+				console.log(key);
+				play(mapkey(key));
+			}, delay);
+		}
+	}
+	</script>
+
+
+</body>
+</html>
