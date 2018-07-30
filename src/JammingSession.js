@@ -1,10 +1,14 @@
-var JammingSession = function (fb_ref) {
+var JammingSession = function (fb_ref, name) {
 	this._fb_ref = fb_ref;
-  	this._key = fb_ref.ref('JammingSesssion').push({'users': [0], 'tracks': [0]}).key;
+  	this._key = fb_ref.ref('JammingSession').push({'name': name, 'users': [0], 'tracks': [0]}).key;
 }
 
 JammingSession.prototype.getKey = function() {
 	return this._key;
+};
+
+JammingSession.prototype.getName = function() {
+	return getValues(this._fb_ref, this._key, 'name')
 };
 
 JammingSession.prototype.getUsers = function() {

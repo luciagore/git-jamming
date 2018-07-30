@@ -14,22 +14,48 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script src="config/firebase_config.js"></script>
+
+    <script src="src/JammingSession.js"></script>
+    <script src="src/Track.js"></script>
+    <script src="src/User.js"></script>
+    <script src="src/Player.js"></script>
+
+	
 </head>
 <body>
 <div id='loading'> Loading Midi ... </div>
 <div id='form' style="visibility: hidden;">
 	<form id='begin_jamming'>
-    <label>User name: </label>
-    <input type="text" id='username' name="username"></input>
-    <br/>
-    <label>Instrument: </label>
-    <select name='instrument' id='instrument'>
+   <label>User name: </label>
+   <input type="text" id='username' name="username"></input>
+   <br/>
+   <label>Instrument: </label>
+   <select name='instrument' id='instrument'>
       <option>Piano</option>
       <option>Drums</option>
-    </select>
-    <br/>
-    <input type="submit" name='submit' value="Submit"> </input>
-  </form>
+   </select>
+   <br/>
+   <label>Jamming Session: </label>
+   <select name='jSession' id='jSession' onchange="newSession(this)">
+      <option value='js1'>js1</option>
+      <option value='js2'>js2</option>
+      <option value="new">Create a new session</option>
+      <option selected="selected">pick a session</option>
+   </select>
+   <br /><br />
+   <div id="create" style="display: none;">
+      <label for="session">Name the session</label> 
+      <input type="text" id='new_session' name="new_session"></input>
+      <br />
+      <label for="session">Name the track</label> 
+      <input type="text" id='new_tract' name="new_track"></input>
+      <br />
+   </div>
+   <br/>
+   <input type="submit" name='submit' value="Submit"> </input>
+</form>
 </div>
 
 
@@ -99,15 +125,30 @@
 	var start_recording;
 	var end_recording;
 	var keystroke_events = [];
-	var jam_session = {}
-	var fb_ref = firebase.database();
 
+	var jam_session = {};
+	var fb_ref = firebase.database();
+	var can_play = false;
+ 
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
 	            event.preventDefault();
-	            var user = $("#username").val();
+
+	            var jamSession_name;
+	            var track_name;
+				var user = $("#username").val();
 	            var instrument = $('#instrument').val();
 
+	            if ($("#jSession").val() == 'new'){
+	            	jamSession_name = $('#new_session').val();
+
+	            } else {
+	            	jamSession_name = $("#jSession").val();
+	            }
+	            
+
+
+	           
 	            // var ref = firebase.database().ref().child('jamming_session');
 	            // var jam_session = {username: user, instrument: instrument};
 	            // ref.push(jam_session, function(error){
@@ -123,11 +164,23 @@
 	            //       }
 	            //   });
 	            // });
-							// midistore = {username: user, instrument: instrument, mididata: nil};
+
 	            jam_session = {username: user, instrument: instrument};
+	            var user = new User(fb_ref, user);
+	            var player = new Player(fb_ref);
+	            player.add_user(user.getKey());
+
+	            var track = new Track(fb_ref, "new track");
+
+	            var js = new JammingSession(fb_ref, jamSession_name)
+	            js.addTrack(track.getKey());
+	            js.addUser(player.getKey());
+
 	            document.getElementById('form').style.visibility = 'hidden'
  		    	document.getElementById('container').style.visibility = 'visible'
 
+ 		    	can_play = true;
+	            
 	      	});
       });
 
@@ -157,7 +210,8 @@
 	};
 
 	document.onkeydown = function (e) {
-		play(mapkey(e.keyCode))
+		if(can_play)
+			play(mapkey(e.keyCode))
 
 		if(recording){
 				keystroke_events.push(
@@ -193,6 +247,7 @@
 		}
 	}
 
+
 	function save(){
 		mididata = []
 		for(i = 0; i<keystroke_events.length; i++){
@@ -204,6 +259,15 @@
 		var instrument = jam_session['instrument'];
 		var midistore = new MidiStore(firebase.database(), instrument, user_id, mididata);
 	}
+
+	function newSession(that) {
+        if (that.value == "new") {
+            document.getElementById("create").style.display = "block";
+        } else {
+            document.getElementById("create").style.display = "none";
+        }
+    }
+
 	</script>
 
 
