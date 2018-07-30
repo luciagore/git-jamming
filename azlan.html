@@ -22,7 +22,7 @@
     <script src="src/User.js"></script>
     <script src="src/Player.js"></script>
 
-	
+
 </head>
 <body>
 <div id='loading'> Loading Midi ... </div>
@@ -46,10 +46,10 @@
    </select>
    <br /><br />
    <div id="create" style="display: none;">
-      <label for="session">Name the session</label> 
+      <label for="session">Name the session</label>
       <input type="text" id='new_session' name="new_session"></input>
       <br />
-      <label for="session">Name the track</label> 
+      <label for="session">Name the track</label>
       <input type="text" id='new_tract' name="new_track"></input>
       <br />
    </div>
@@ -57,6 +57,14 @@
    <input type="submit" name='submit' value="Submit"> </input>
 </form>
 </div>
+
+
+
+
+
+
+
+
 
 
 <div id='container' style="visibility: hidden;">
@@ -129,14 +137,14 @@
 	var jam_session = {};
 	var fb_ref = firebase.database();
 	var can_play = false;
- 
+
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
 	            event.preventDefault();
 
 	            var jamSession_name;
 	            var track_name;
-				var user = $("#username").val();
+							var user = $("#username").val();
 	            var instrument = $('#instrument').val();
 
 	            if ($("#jSession").val() == 'new'){
@@ -145,27 +153,9 @@
 	            } else {
 	            	jamSession_name = $("#jSession").val();
 	            }
-	            
-
-
-	           
-	            // var ref = firebase.database().ref().child('jamming_session');
-	            // var jam_session = {username: user, instrument: instrument};
-	            // ref.push(jam_session, function(error){
-	            //   $.ajax({
-	            //     type: "POST",
-	            //     contentType: "application/json; charset=utf-8",
-	            //     url: "jamming.html",
-	            //     dataType: "json",
-	            //     data: { username: user, instrument: instrument },
-	            //     complete:
-	            //       function () {
-	            //           window.location = "jamming.html";
-	            //       }
-	            //   });
-	            // });
 
 	            jam_session = {username: user, instrument: instrument};
+
 	            var user = new User(fb_ref, user);
 	            var player = new Player(fb_ref);
 	            player.add_user(user.getKey());
@@ -177,12 +167,13 @@
 	            js.addUser(player.getKey());
 
 	            document.getElementById('form').style.visibility = 'hidden'
- 		    	document.getElementById('container').style.visibility = 'visible'
+ 		    			document.getElementById('container').style.visibility = 'visible'
 
- 		    	can_play = true;
-	            
+ 		    			can_play = true;
+
 	      	});
       });
+
 
 	function record(){
 		// Get the checkbox
