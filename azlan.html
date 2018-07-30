@@ -15,17 +15,34 @@
 <div id='loading'> Loading Midi ... </div>
 <div id='form' style="visibility: hidden;">
 	<form id='begin_jamming'>
-    <label>User name: </label>
-    <input type="text" id='username' name="username"></input>
-    <br/>
-    <label>Instrument: </label>
-    <select name='instrument' id='instrument'>
+   <label>User name: </label>
+   <input type="text" id='username' name="username"></input>
+   <br/>
+   <label>Instrument: </label>
+   <select name='instrument' id='instrument'>
       <option>Piano</option>
       <option>Drums</option>
-    </select>
-    <br/>
-    <input type="submit" name='submit' value="Submit"> </input>
-  </form>
+   </select>
+   <br/>
+   <label>Instrument: </label>
+   <select name='jSession' id='jSession' onchange="newSession(this)">
+      <option value='js1'>js1</option>
+      <option value='js2'>js2</option>
+      <option value="new">Create a new session</option>
+      <option selected="selected">pick a session</option>
+   </select>
+   <br /><br />
+   <div id="create" style="display: none;">
+      <label for="session">Name the session</label> 
+      <input type="text" id='new_session' name="new_session"></input>
+      <br />
+      <label for="session">Name the track</label> 
+      <input type="text" id='new_tract' name="new_track"></input>
+      <br />
+   </div>
+   <br/>
+   <input type="submit" name='submit' value="Submit"> </input>
+</form>
 </div>
 
 
@@ -186,6 +203,14 @@
 			}, delay);
 		}
 	}
+
+	function newSession(that) {
+        if (that.value == "new") {
+            document.getElementById("create").style.display = "block";
+        } else {
+            document.getElementById("create").style.display = "none";
+        }
+    }
 	</script>
 
 
