@@ -82,6 +82,6 @@ From the 'Expansion Library' folder add the relevant instrument folder, mp3.js a
 ### Created by:
 
 - [Arsalan Ahmed](https://github.com/arsalanabc)
-- [Diego Fontecilla](https://github.com/ridginald)
+- [Diego Fontecilla](https://github.com/diegofontecilla)
 - [Lucia Gore](https://github.com/luciagore)
-- [Daniel Ridgway](https://github.com/diegofontecilla)
+- [Daniel Ridgway](https://github.com/ridginald)
