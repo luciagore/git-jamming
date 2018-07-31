@@ -72,6 +72,12 @@ At this stage, we will aim to first allow a different user to access the same tr
 - Testing Suites: Jasmine, Cypress
 - CD: Heroku
 
+### Expansion (instrument library)
+
+Our project has the potential to be expanded to include a full library of instruments, which would allow the user(s) to decide their 'band' setup.
+
+From the 'Expansion Library' folder add the relevant instrument folder, mp3.js and ogg.js files to the 'soundfont' folder. From here add the relevant instrument name to the var in webmidi.js (line 352) and MIDI.js (line 352) in the same format as the other instruments listed - add 'instrument: "instrumentname"' (below line 28), and update the byName parameter (below onsuccess).
+
 ### Created by:
 
 - [Arsalan Ahmed](https://github.com/arsalanabc)
