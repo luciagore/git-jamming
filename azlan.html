@@ -54,7 +54,7 @@
       <input type="text" id='new_session' name="new_session"></input>
       <br />
       <label for="session">Name the track</label>
-      <input type="text" id='new_tract' name="new_track"></input>
+      <input type="text" id='new_track' name="new_track"></input>
       <br />
    </div>
    <br/>
@@ -102,12 +102,15 @@
 
     MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
-    instrument: "acoustic_grand_piano",
-    // instrument: "synth_drum",
+		instrument: "acoustic_grand_piano",
+	  instrument: "steel_drums",
+	  instrument: "electric_bass_finger",
+	  instrument: "marimba",
     onprogress: function(state, progress) {
       // console.log(state, progress);
     },
     onsuccess: function() {
+			MIDI.programChange(0, MIDI.GM.byName["marimba"].number);
 
     	document.getElementById('loading').style.visibility = 'hidden'
     	document.getElementById('form').style.visibility = 'visible'
@@ -135,7 +138,7 @@
 
   function play(keynote) {
 
-    var delay = 0; // play one note every quarter second
+    	var delay = 0; // play one note every quarter second
       var note = keynote; // the MIDI note
       var velocity = 127; // how hard the note hits
       // play the note
@@ -291,15 +294,15 @@
 
 		var before_len = keystroke_events[keystroke_events.length - 1]['delay'];
 
-		
+
 			midistore.getLength().then(function(length){
 				console.log('len promise ', length)
 				for (var i = 0; i < keystroke_events.length; i++){
 					if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 					{
-						
+
 						keystroke_events[i].delay += length;
-						
+
 					}
 				}
 				keystroke_events.shift();
@@ -320,23 +323,23 @@
 
 	// 	}
 	// 		console.log('current_len data', data);
-		
+
 	// 		return length_data
 	// 	});
 
 
 
-		
+
 
 	// 	console.log('midistore.getLength()', midistore.getLength());
 	// 	console.log('current_len', current_length);
-		
+
 	// 	for (var i = 0; i < keystroke_events.length; i++){
 	// 		if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 	// 		{
 	// 			console.log('keystroke_events[i].delay', keystroke_events[i].delay)
 	// 			keystroke_events[i].delay += current_length;
-				
+
 	// 		}
 	// 	}
 
@@ -347,7 +350,7 @@
 	// 	midistore.updateMidi(keystroke_events);
 	// 	midistore.updateLength(length);
 
-		
+
 	}
 
 	function newSession(that) {
