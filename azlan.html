@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title></title>
+	<link rel="stylesheet" href="index.css">
 
 	<script src="webmidi.js" type="text/javascript"></script>
     <script src="inc/shim/Base64.js" type="text/javascript"></script>
@@ -22,8 +23,9 @@
     <script src="src/User.js"></script>
     <script src="src/Player.js"></script>
 
-    
-	
+
+
+
 </head>
 <body>
 
@@ -48,10 +50,10 @@
    </select>
    <br /><br />
    <div id="create" style="display: none;">
-      <label for="session">Name the session</label> 
+      <label for="session">Name the session</label>
       <input type="text" id='new_session' name="new_session"></input>
       <br />
-      <label for="session">Name the track</label> 
+      <label for="session">Name the track</label>
       <input type="text" id='new_tract' name="new_track"></input>
       <br />
    </div>
@@ -62,17 +64,38 @@
 
 
 <div id='container' style="visibility: hidden;">
-	<input type="checkbox" id='recording' name="recording" onclick="record()">
-		<p id='text'> Start recording</p>
-	</input>
-
-	<button id='saved_keys' onclick="show()">Show</button>
-	<button id='log' onclick="log()">Play</button>
-	<button id='save_recording' onclick="save()">Save Recording</button>
-
+	<div id="kbd">
+	      <div id="keys">
+	          <ul class="set">
+	              <li class="white b"></li>
+	              <li class="black as"></li>
+	              <li class="white a"></li>
+	              <li class="black gs"></li>
+	              <li class="white g"></li>
+	              <li class="black fs"></li>
+	              <li class="white f"></li>
+	              <li class="white e"></li>
+	              <li class="black ds"></li>
+	              <li class="white d"></li>
+	              <li class="black cs"></li>
+	              <li class="white c"></li>
+	          </ul>
+	      </div>
+	      <br/>
+	      <br/>
+	      <br/>
+	  </div>
 	<div id='show_div'></div>
-</div>
+	<center>
+		<input type="checkbox" id='recording' name="recording" onclick="record()">
+			<p id='text'> Start recording</p>
+		</input>
 
+		<button id='saved_keys' onclick="show()">Show</button>
+		<button id='log' onclick="log()">Play</button>
+		<button id='save_recording' onclick="save()">Save Recording</button>
+ 	</center>
+</div>
 
 
 <script type="text/javascript">
@@ -133,7 +156,7 @@
 	var can_play = false;
 	var mididata = [{key: 'start', delay: 0}];
 	var midistore;
- 
+
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
 
@@ -150,10 +173,10 @@
 	            } else {
 	            	jamSession_name = $("#jSession").val();
 	            }
-	            
 
 
-	           
+
+
 	            // var ref = firebase.database().ref().child('jamming_session');
 	            // var jam_session = {username: user, instrument: instrument};
 	            // ref.push(jam_session, function(error){
@@ -181,18 +204,18 @@
 	            js.addTrack(track.getKey());
 	            js.addUser(player.getKey());
 
-	            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(), 
+	            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(),
 	            	mididata
 	            	);
 	            midistore = midistore_temp;
-				
+
 	            track.add_midi(midistore.getKey());
 
 	            document.getElementById('form').style.visibility = 'hidden'
  		    	document.getElementById('container').style.visibility = 'visible'
 
  		    	can_play = true;
-	            
+
 	      	});
       });
 
@@ -267,7 +290,7 @@
 		var current_length = parseInt(midistore.getLength());
 		console.log('midistore.getLength()', midistore.getLength());
 		console.log('current_len', current_length);
-		
+
 		for (var i = 0; i < keystroke_events.length; i++){
 			if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 			{
