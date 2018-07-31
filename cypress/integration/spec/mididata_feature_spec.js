@@ -33,6 +33,8 @@ context('Actions', () => {
 
     cy.get('#recording').uncheck();
 
+    cy.get('#saved_keys').click();
+
     cy.get('#save_recording').click();
 
      //cy.location("pathname").should('eq', '/jamming.html')

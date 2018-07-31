@@ -1,9 +1,10 @@
-function MidiStore(fb_ref, instrument, user_id, mididata) {
+var MidiStore = function(fb_ref, instrument, user_id, mididata) {
   this._instrument = instrument;
   this._fb_ref = fb_ref;
   this._mididata = mididata
   this._user_id = user_id
   this._key = fb_ref.ref('MidiStore').push({"instrument": instrument, "user_id": user_id, "mididata": mididata, 'length': 0}).key;
+  //console.log('key from const', this._key)
 }
 
 MidiStore.prototype.getKey = function () {
@@ -19,11 +20,12 @@ MidiStore.prototype.getMididata = function () {
 };
 
 MidiStore.prototype.getUser = function () {
-  return this._user_id
+  return this._user_id;
 };
 
 MidiStore.prototype.getLength = function () {
-  return getValues_m(this._fb_ref, 'MidiStore', this._key, 'length');
+  
+  getValues_m(this._fb_ref, 'MidiStore', this._key, 'length');
 };
 
 MidiStore.prototype.updateLength = function (length) {
@@ -43,13 +45,15 @@ MidiStore.prototype.updateMidi = function (newdata) {
 };
 
 
-function getValues_m(ref, table_name, key, child_key){
-	var data = [];
-	ref.ref(table_name).on('value', 
-		function(snapshot) {
-			var temp_values = snapshot.val()
-			data = temp_values[key][child_key]
-	});
+function getValues_m(fb_ref, table_name, key, child_key){
+    fb_ref.ref(table_name).child(key).child(child_key).once('value').then(function(snapshot) {
+        data = snapshot.val();
+        console.log('data', data)
+        return data
+  }, function(error) {
+    // The Promise was rejected.
+    console.error(error);
+  });
 
-	return data;
+	
 }

@@ -265,12 +265,15 @@
 		console.log('current_midi', current_midi);
 
 		var current_length = parseInt(midistore.getLength());
-
+		console.log('midistore.getLength()', midistore.getLength());
+		console.log('current_len', current_length);
 		
 		for (var i = 0; i < keystroke_events.length; i++){
 			if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 			{
+
 				keystroke_events[i].delay += current_length;
+				console.log('keystroke_events[i].delay', keystroke_events[i].delay)
 			}
 		}
 
