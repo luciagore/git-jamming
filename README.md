@@ -1,6 +1,6 @@
 ## Git Jamming
 
-[Instructions](#instructions) | [User Stories](#user) | [Week One Summary](#one) | [Week Two Goals](#two) | [Pictures/Screenshots](#pictures)
+[Instructions](#instructions) | [User Stories](#user) | [Week One Summary](#one) | [Week Two Goals](#two) | [Pictures/Screenshots](#pictures) | [Expansion](#expansion)
 
 Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to share a recording by joining a jamming session with other users, where they can then create music together.
 
@@ -72,7 +72,7 @@ At this stage, we will aim to first allow a different user to access the same tr
 - Testing Suites: Jasmine, Cypress
 - CD: Heroku
 
-### Expansion (instrument library)
+### <a name="expansion"></a>Expansion (instrument library)
 
 Our project has the potential to be expanded to include a full library of instruments, which would allow the user(s) to decide their 'band' setup.
 
