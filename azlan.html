@@ -246,15 +246,20 @@
 
 	function log(){
 
-		for(i = 0; i<keystroke_events.length; i++){
-			let key = keystroke_events[i].key;
-			let delay = keystroke_events[i].delay
+		midistore.getMididata().then(function(data){
+
+			console.log('mididata', data)
+
+		for(i = 1; i<data.length; i++){
+			let key = data[i].key;
+			let delay = data[i].delay
 			setTimeout(function(){
 				//console.log(keystroke_events);
 				console.log(key);
 				play(mapkey(key));
 			}, delay);
 		}
+		})
 	}
 
 
