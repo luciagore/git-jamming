@@ -16,44 +16,68 @@ MidiStore.prototype.getInstrument = function () {
 };
 
 MidiStore.prototype.getMididata = function () {
-  return getValues_m(this._fb_ref, 'MidiStore',this._key, 'mididata');
+  return getValues_m(this._fb_ref, 'MidiStore',this._key, 'mididata').then(function(r){
+    return r;
+  });
 };
 
 MidiStore.prototype.getUser = function () {
   return this._user_id;
 };
 
-MidiStore.prototype.getLength = function () {
+MidiStore.prototype.getLength = async function () {
   
-  getValues_m(this._fb_ref, 'MidiStore', this._key, 'length');
+  let value = await getValues_m(this._fb_ref, 'MidiStore', this._key, 'length');
+
+  return value;
 };
 
 MidiStore.prototype.updateLength = function (length) {
- 
-  var old_data = getValues_m(this._fb_ref, 'MidiStore', this._key, 'length');
- 	this._fb_ref.ref('MidiStore').child(this._key+'/length').set(old_data+length);
+
+  that = this;
+  getValues_m(this._fb_ref, 'MidiStore', this._key, 'length').then(
+
+    function(data){
+      console.log('data in uopdate len', data);
+      that._fb_ref.ref('MidiStore').child(that._key+'/length').set(data+length);
+      
+    });
+ 	
 };
 
 MidiStore.prototype.updateMidi = function (newdata) {
- 	var old_data = getValues_m(this._fb_ref, 'MidiStore', this._key, 'mididata');
- 	console.log('update old data', old_data)
- 	for (var i = 0; i < newdata.length; i++){
- 		old_data.push(newdata[i]);
- 	}
- 	this._fb_ref.ref('MidiStore').child(this._key+'/mididata').set(old_data);
+  that = this;
+ 	getValues_m(this._fb_ref, 'MidiStore', this._key, 'mididata').then(function(res){
+  console.log('promise resolved', res)
+    
+  console.log('update old data', res)
+ 
+    for (var i = 0; i < newdata.length; i++){
+      res.push(newdata[i]);
+    }
+    that._fb_ref.ref('MidiStore').child(that._key+'/mididata').set(res);
+ 
+  });
+
 
 };
 
 
-function getValues_m(fb_ref, table_name, key, child_key){
-    fb_ref.ref(table_name).child(key).child(child_key).once('value').then(function(snapshot) {
-        data = snapshot.val();
-        console.log('data', data)
-        return data
-  }, function(error) {
-    // The Promise was rejected.
-    console.error(error);
-  });
+async function getValues_m(fb_ref, table_name, key, child_key){
+    let snapshot = await fb_ref.ref(table_name).child(key).child(child_key).once('value')
+
+    return snapshot.val();
+
+  //   .then(function(snapshot) {
+  //       data = snapshot.val();
+  //       console.log('data', data)
+  //       return data
+  // }, function(error) {
+  //   // The Promise was rejected.
+  //   console.error(error);
+  // };
+
+
 
 	
 }

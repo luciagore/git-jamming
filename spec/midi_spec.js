@@ -21,7 +21,7 @@ describe('MidiStore',function(){
 
 
 	beforeEach(function(){
-		midistore = new MidiStore(firebase.database(), "piano", 'lucy', mididata);
+		midistore = new MidiStore(fb_ref_double, "piano", 'lucy', mididata);
 
 	});
   it('has an ID', function(){
@@ -43,15 +43,15 @@ describe('MidiStore',function(){
 
   it('holds time', function(){
     //spyOn(window, 'getValues_m').and.returnValue(0);
-    var time = midistore.getLength();
+    var time = midistore.getLength().then(function(data){
+      expect(data).toEqual(0)
+    });
 
-    expect(setTimeout(
-      function(){ console.log('time', time);
-          return time;}, 500)).toEqual(0)
+    
   })
 
 	it('updates midi', function(){
-    spyOn(window, 'getValues_m').and.returnValue(mididata);
+    spyOn(window, 'getValues_m.then').and.returnValue(mididata);
 		var addition = { note:1, delay: 21 };
 		midistore.updateMidi(addition);
 		mididata[4] = addition

@@ -269,45 +269,85 @@
 
 	function log(){
 
-		for(i = 0; i<keystroke_events.length; i++){
-			let key = keystroke_events[i].key;
-			let delay = keystroke_events[i].delay
+		midistore.getMididata().then(function(data){
+
+			console.log('mididata', data)
+
+		for(i = 1; i<data.length; i++){
+			let key = data[i].key;
+			let delay = data[i].delay
 			setTimeout(function(){
 				//console.log(keystroke_events);
 				console.log(key);
 				play(mapkey(key));
 			}, delay);
 		}
+		})
 	}
+
 
 
 	function save(){
 
-		var current_midi = midistore.getMididata();
+		var before_len = keystroke_events[keystroke_events.length - 1]['delay'];
 
-		console.log('current_midi', current_midi);
+		
+			midistore.getLength().then(function(length){
+				console.log('len promise ', length)
+				for (var i = 0; i < keystroke_events.length; i++){
+					if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
+					{
+						
+						keystroke_events[i].delay += length;
+						
+					}
+				}
+				keystroke_events.shift();
+				keystroke_events.pop();
 
-		var current_length = parseInt(midistore.getLength());
-		console.log('midistore.getLength()', midistore.getLength());
-		console.log('current_len', current_length);
+				midistore.updateMidi(keystroke_events);
+				midistore.updateLength(before_len);
 
-		for (var i = 0; i < keystroke_events.length; i++){
-			if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
-			{
+				keystroke_events = [];
+			});
 
-				keystroke_events[i].delay += current_length;
-				console.log('keystroke_events[i].delay', keystroke_events[i].delay)
-			}
-		}
+	// midistore.getMididata().then(function(data) {
+	// 		console.log('data in promise', data);
+	// 		return data
 
-		var length = keystroke_events[keystroke_events.length - 1]['delay'] + current_length;
+	// 		var current_length = midistore.getLength().then(function(data){
 
-		console.log('updated midi', keystroke_events);
 
-		midistore.updateMidi(keystroke_events);
-		midistore.updateLength(length);
+	// 	}
+	// 		console.log('current_len data', data);
+		
+	// 		return length_data
+	// 	});
 
-		keystroke_events = [];
+
+
+		
+
+	// 	console.log('midistore.getLength()', midistore.getLength());
+	// 	console.log('current_len', current_length);
+		
+	// 	for (var i = 0; i < keystroke_events.length; i++){
+	// 		if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
+	// 		{
+	// 			console.log('keystroke_events[i].delay', keystroke_events[i].delay)
+	// 			keystroke_events[i].delay += current_length;
+				
+	// 		}
+	// 	}
+
+	// 	var length = keystroke_events[keystroke_events.length - 1]['delay'] + current_length;
+
+	// 	console.log('updated midi', keystroke_events);
+
+	// 	midistore.updateMidi(keystroke_events);
+	// 	midistore.updateLength(length);
+
+		
 	}
 
 	function newSession(that) {
