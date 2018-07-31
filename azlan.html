@@ -22,9 +22,11 @@
     <script src="src/User.js"></script>
     <script src="src/Player.js"></script>
 
+    
 	
 </head>
 <body>
+
 <div id='loading'> Loading Midi ... </div>
 <div id='form' style="visibility: hidden;">
 	<form id='begin_jamming'>
@@ -129,14 +131,17 @@
 	var jam_session = {};
 	var fb_ref = firebase.database();
 	var can_play = false;
+	var mididata = [{key: 'start', delay: 0}];
+	var midistore;
  
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
+
 	            event.preventDefault();
 
 	            var jamSession_name;
 	            var track_name;
-				var user = $("#username").val();
+				var username = $("#username").val();
 	            var instrument = $('#instrument').val();
 
 	            if ($("#jSession").val() == 'new'){
@@ -165,8 +170,8 @@
 	            //   });
 	            // });
 
-	            jam_session = {username: user, instrument: instrument};
-	            var user = new User(fb_ref, user);
+	            jam_session = {username: username, instrument: instrument};
+	            var user = new User(fb_ref, username);
 	            var player = new Player(fb_ref);
 	            player.add_user(user.getKey());
 
@@ -175,6 +180,13 @@
 	            var js = new JammingSession(fb_ref, jamSession_name)
 	            js.addTrack(track.getKey());
 	            js.addUser(player.getKey());
+
+	            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(), 
+	            	mididata
+	            	);
+	            midistore = midistore_temp;
+				
+	            track.add_midi(midistore.getKey());
 
 	            document.getElementById('form').style.visibility = 'hidden'
  		    	document.getElementById('container').style.visibility = 'visible'
@@ -194,7 +206,7 @@
 	  if (checkBox.checked == true){
 	    text.innerHTML = "Recording";
 	    recording = true;
-	    keystroke_events.push({key: 'start', timeStamp: new Date().getTime(),
+	    keystroke_events.push({key: 'start',
 		delay: 0
 		});
 	    start_recording = new Date().getTime();
@@ -202,7 +214,7 @@
 	    text.innerHTML = "Start recording";
 	    recording = false;
 	    keystroke_events.push(
-	    	{key: 'end', timeStamp: new Date().getTime(),
+	    	{key: 'end',
 			delay: new Date().getTime() - start_recording
 			});
 	    end_recording = new Date().getTime();
@@ -217,7 +229,6 @@
 				keystroke_events.push(
 					{
 						key: e.keyCode,
-						timeStamp: new Date().getTime(),
 						delay: new Date().getTime() - start_recording
 				});
 			}
@@ -227,8 +238,7 @@
 		var div = document.getElementById('show_div')
 		for(i = 0; i<keystroke_events.length; i++){
 			div.innerHTML += keystroke_events[i].key+
-			': '+
-			keystroke_events[i].timeStamp+' delay: '+
+			' delay : '+
 			keystroke_events[i].delay+
 			'<br/>';
 		}
@@ -249,15 +259,32 @@
 
 
 	function save(){
-		mididata = []
-		for(i = 0; i<keystroke_events.length; i++){
-			let key = keystroke_events[i].key;
-			let delay = keystroke_events[i].delay
-			mididata.push({key: key, delay: delay})
-		};
-		var user = jam_session['username'];
-		var instrument = jam_session['instrument'];
-		var midistore = new MidiStore(firebase.database(), instrument, user_id, mididata);
+
+		var current_midi = midistore.getMididata();
+
+		console.log('current_midi', current_midi);
+
+		var current_length = parseInt(midistore.getLength());
+		console.log('midistore.getLength()', midistore.getLength());
+		console.log('current_len', current_length);
+		
+		for (var i = 0; i < keystroke_events.length; i++){
+			if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
+			{
+
+				keystroke_events[i].delay += current_length;
+				console.log('keystroke_events[i].delay', keystroke_events[i].delay)
+			}
+		}
+
+		var length = keystroke_events[keystroke_events.length - 1]['delay'] + current_length;
+
+		console.log('updated midi', keystroke_events);
+
+		midistore.updateMidi(keystroke_events);
+		midistore.updateLength(length);
+
+		keystroke_events = [];
 	}
 
 	function newSession(that) {

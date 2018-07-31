@@ -51,7 +51,7 @@ describe('mapping JammingSession to an object', function(){
     spyOn(jamming_session, 'getTracks').and.returnValue(listoftracks_mock);
     spyOn(jamming_session, 'getName').and.returnValue("My jamming session");
   
-    spyOn(window, 'getValues').and.callFake(function(ref, key, child_key) {
+    spyOn(window, 'getValues_js').and.callFake(function(ref, key, child_key) {
       var array;
       switch (child_key) {
         case 'users':

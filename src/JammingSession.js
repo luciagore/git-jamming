@@ -8,11 +8,11 @@ JammingSession.prototype.getKey = function() {
 };
 
 JammingSession.prototype.getName = function() {
-	return getValues(this._fb_ref, this._key, 'name')
+	return getValues_js(this._fb_ref, this._key, 'name')
 };
 
 JammingSession.prototype.getUsers = function() {
-	return getValues(this._fb_ref, this._key, 'users')
+	return getValues_js(this._fb_ref, this._key, 'users')
 };
 
 JammingSession.prototype.addUser = function(user) {
@@ -24,7 +24,7 @@ JammingSession.prototype.deleteUser = function(user) {
 };
 
 JammingSession.prototype.getTracks = function() {
-	return getValues(this._fb_ref, this._key, 'tracks')
+	return getValues_js(this._fb_ref, this._key, 'tracks')
 };
 
 JammingSession.prototype.addTrack = function(track) {
@@ -35,7 +35,7 @@ JammingSession.prototype.deleteTrack = function(track) {
 	updateData(this._fb_ref, this._key, 'tracks', track, 'delete')
 };
 
-function getValues(ref, key, child_key){
+function getValues_js(ref, key, child_key){
 	data = []
 	ref.ref('JammingSession').on('value', 
 		function(snapshot) {
@@ -46,7 +46,7 @@ function getValues(ref, key, child_key){
 }
 
 function updateData(fb_ref, key, child_key, new_data, action){
-	var old_data = getValues(fb_ref, key, child_key);
+	var old_data = getValues_js(fb_ref, key, child_key);
 	
 	switch (action) {
 		case 'delete':
