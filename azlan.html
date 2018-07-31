@@ -258,33 +258,71 @@
 	}
 
 
+
 	function save(){
 
-		var current_midi = midistore.getMididata();
+		var before_len = keystroke_events[keystroke_events.length - 1]['delay'];
 
-		console.log('current_midi', current_midi);
-
-		var current_length = parseInt(midistore.getLength());
-		console.log('midistore.getLength()', midistore.getLength());
-		console.log('current_len', current_length);
 		
-		for (var i = 0; i < keystroke_events.length; i++){
-			if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
-			{
+			midistore.getLength().then(function(length){
+				console.log('len promise ', length)
+				for (var i = 0; i < keystroke_events.length; i++){
+					if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
+					{
+						
+						keystroke_events[i].delay += length;
+						
+					}
+				}
+				keystroke_events.shift();
+				keystroke_events.pop();
 
-				keystroke_events[i].delay += current_length;
-				console.log('keystroke_events[i].delay', keystroke_events[i].delay)
-			}
-		}
+				midistore.updateMidi(keystroke_events);
+				midistore.updateLength(before_len);
 
-		var length = keystroke_events[keystroke_events.length - 1]['delay'] + current_length;
+				keystroke_events = [];
+			});
 
-		console.log('updated midi', keystroke_events);
+		
 
-		midistore.updateMidi(keystroke_events);
-		midistore.updateLength(length);
 
-		keystroke_events = [];
+	// midistore.getMididata().then(function(data) {
+	// 		console.log('data in promise', data);
+	// 		return data
+
+	// 		var current_length = midistore.getLength().then(function(data){
+
+
+	// 	}
+	// 		console.log('current_len data', data);
+		
+	// 		return length_data
+	// 	});
+
+
+
+		
+
+	// 	console.log('midistore.getLength()', midistore.getLength());
+	// 	console.log('current_len', current_length);
+		
+	// 	for (var i = 0; i < keystroke_events.length; i++){
+	// 		if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
+	// 		{
+	// 			console.log('keystroke_events[i].delay', keystroke_events[i].delay)
+	// 			keystroke_events[i].delay += current_length;
+				
+	// 		}
+	// 	}
+
+	// 	var length = keystroke_events[keystroke_events.length - 1]['delay'] + current_length;
+
+	// 	console.log('updated midi', keystroke_events);
+
+	// 	midistore.updateMidi(keystroke_events);
+	// 	midistore.updateLength(length);
+
+		
 	}
 
 	function newSession(that) {
