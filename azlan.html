@@ -39,13 +39,15 @@
       <option>Drums</option>
    </select>
    <br/>
-   <label>Jamming Session: </label>
-   <select name='jSession' id='jSession' onchange="newSession(this)">
-      <option value='js1'>js1</option>
-      <option value='js2'>js2</option>
-      <option value="new">Create a new session</option>
-      <option selected="selected">pick a session</option>
-   </select>
+   <div id='js_list'>
+	   <label>Jamming Session: </label>
+	   <select name='jSession' id='jSession' onchange="newSession(this)">
+	      <option value='js1'>js1</option>
+	      <option value='js2'>js2</option>
+	      <option value="new">Create a new session</option>
+	      <option selected="selected">pick a session</option>
+	   </select>
+	</div>
    <br /><br />
    <div id="create" style="display: none;">
       <label for="session">Name the session</label> 
@@ -69,8 +71,9 @@
 	<button id='saved_keys' onclick="show()">Show</button>
 	<button id='log' onclick="log()">Play</button>
 	<button id='save_recording' onclick="save()">Save Recording</button>
-
-	<div id='show_div'></div>
+	
+	<input type="input" name='notes' id='notes'></input>
+	
 </div>
 
 
@@ -88,6 +91,8 @@
 
     	document.getElementById('loading').style.visibility = 'hidden'
     	document.getElementById('form').style.visibility = 'visible'
+    	//document.getElementById('jSession').appendChild(document.createTextNode("<option value='sadsa'> what</option>"))
+    	load_js_list(document.getElementById('jSession'));
       console.log('MIDI library ready')
     }
 
@@ -123,78 +128,78 @@
 	};
 
 
-	var recording = false;
-	var start_recording;
-	var end_recording;
-	var keystroke_events = [];
+var recording = false;
+var start_recording;
+var end_recording;
+var keystroke_events = [];
 
-	var jam_session = {};
-	var fb_ref = firebase.database();
-	var can_play = false;
-	var mididata = [{key: 'start', delay: 0}];
-	var midistore;
+var jam_session = {};
+var fb_ref = firebase.database();
+var can_play = false;
+var mididata = [{key: 'start', delay: 0}];
+var midistore;
  
-	$(document).ready(function(){
-           $('#begin_jamming').submit(function(event){
+$(document).ready(function(){
+       $('#begin_jamming').submit(function(event){
 
-	            event.preventDefault();
+            event.preventDefault();
 
-	            var jamSession_name;
-	            var track_name;
-				var username = $("#username").val();
-	            var instrument = $('#instrument').val();
+            var jamSession_name;
+            var track_name;
+			var username = $("#username").val();
+            var instrument = $('#instrument').val();
 
-	            if ($("#jSession").val() == 'new'){
-	            	jamSession_name = $('#new_session').val();
+            if ($("#jSession").val() == 'new'){
+            	jamSession_name = $('#new_session').val();
 
-	            } else {
-	            	jamSession_name = $("#jSession").val();
-	            }
-	            
+            } else {
+            	jamSession_name = $("#jSession").val();
+            }
+            
 
 
-	           
-	            // var ref = firebase.database().ref().child('jamming_session');
-	            // var jam_session = {username: user, instrument: instrument};
-	            // ref.push(jam_session, function(error){
-	            //   $.ajax({
-	            //     type: "POST",
-	            //     contentType: "application/json; charset=utf-8",
-	            //     url: "jamming.html",
-	            //     dataType: "json",
-	            //     data: { username: user, instrument: instrument },
-	            //     complete:
-	            //       function () {
-	            //           window.location = "jamming.html";
-	            //       }
-	            //   });
-	            // });
+           
+            // var ref = firebase.database().ref().child('jamming_session');
+            // var jam_session = {username: user, instrument: instrument};
+            // ref.push(jam_session, function(error){
+            //   $.ajax({
+            //     type: "POST",
+            //     contentType: "application/json; charset=utf-8",
+            //     url: "jamming.html",
+            //     dataType: "json",
+            //     data: { username: user, instrument: instrument },
+            //     complete:
+            //       function () {
+            //           window.location = "jamming.html";
+            //       }
+            //   });
+            // });
 
-	            jam_session = {username: username, instrument: instrument};
-	            var user = new User(fb_ref, username);
-	            var player = new Player(fb_ref);
-	            player.add_user(user.getKey());
+            jam_session = {username: username, instrument: instrument};
+            var user = new User(fb_ref, username);
+            var player = new Player(fb_ref);
+            player.add_user(user.getKey());
 
-	            var track = new Track(fb_ref, "new track");
+            var track = new Track(fb_ref, "new track");
 
-	            var js = new JammingSession(fb_ref, jamSession_name)
-	            js.addTrack(track.getKey());
-	            js.addUser(player.getKey());
+            var js = new JammingSession(fb_ref, jamSession_name)
+            js.addTrack(track.getKey());
+            js.addUser(player.getKey());
 
-	            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(), 
-	            	mididata
-	            	);
-	            midistore = midistore_temp;
-				
-	            track.add_midi(midistore.getKey());
+            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(), 
+            	mididata
+            	);
+            midistore = midistore_temp;
+			
+            track.add_midi(midistore.getKey());
 
-	            document.getElementById('form').style.visibility = 'hidden'
- 		    	document.getElementById('container').style.visibility = 'visible'
+            document.getElementById('form').style.visibility = 'hidden'
+		    	document.getElementById('container').style.visibility = 'visible'
 
- 		    	can_play = true;
-	            
-	      	});
-      });
+		    	can_play = true;
+            
+      	});
+  });
 
 	function record(){
 		// Get the checkbox
@@ -336,6 +341,39 @@
         } else {
             document.getElementById("create").style.display = "none";
         }
+    }
+
+    function load_js_list(element){
+
+    	fb_ref.ref('JammingSession').once('value').then(
+    		function(jsessions){
+    			console.log('jsession', Object.keys(jsessions.val()) );
+    			list_of_js = Object.keys(jsessions.val());
+
+    			
+
+    			for (var i = 0; i < list_of_js.length; i++){
+    				one_session = jsessions.val()[list_of_js[i]]
+    				console.log('jsession name', one_session['name']);
+
+
+    				//element.appendChild(document.createTextNode(`<option value='${list_of_js[i]}'>'${one_session['name']}'</option>`))
+
+    				//element.appendChild(document.createTextNode("<option value=\"sadsa\"> what</option>"))
+
+    				var option = document.createElement("option");
+			    	option.text = one_session['name'];
+			    	option.value = list_of_js[i]
+			    	element.add(option);
+
+    			}
+
+
+    			
+
+
+    		}
+    		);
     }
 
 	</script>

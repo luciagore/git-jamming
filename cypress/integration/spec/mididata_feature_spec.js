@@ -22,13 +22,17 @@ context('Actions', () => {
     cy.get('#recording').check();
 
 
-    {'a'};
+
+    cy.get('input[name=notes]')
+       .type('a')
     cy.wait(500);
 
-    {'s'};
+    cy.get('input[name=notes]')
+       .type('s')
     cy.wait(700);
 
-    {'h'};
+    cy.get('input[name=notes]')
+       .type('g')
     cy.wait(350);
 
     cy.get('#recording').uncheck();
