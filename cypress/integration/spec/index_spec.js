@@ -15,7 +15,7 @@ context('Actions', () => {
     cy.get('#begin_jamming').submit()
 
      cy.location("pathname").should('eq', '/jamming.html')
-     
+
      cy.contains('Welcome, Rob! You chose Piano for this session')
 
   })

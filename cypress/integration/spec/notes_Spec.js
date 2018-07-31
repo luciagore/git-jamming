@@ -9,7 +9,7 @@ context('Notes', () => {
 
   it('12 buttons on screen', () => {
 
-     cy.contains('Button 1')
+     cy.contains("keys")
      cy.contains('Button 2')
      cy.contains('Button 3')
      cy.contains('Button 4')
