@@ -62,8 +62,10 @@
 </form>
 </div>
 
-
 <div id='container' style="visibility: hidden;">
+
+	<div id='show_midi'></div>
+
 	<div id="kbd">
 	      <div id="keys">
 	          <ul class="set">
@@ -84,8 +86,11 @@
 	      <br/>
 	      <br/>
 	      <br/>
+
+
 	  </div>
 	<div id='show_div'></div>
+
 	<center>
 		<input type="checkbox" id='recording' name="recording" onclick="record()">
 			<p id='text'> Start recording</p>
@@ -169,7 +174,8 @@
 
 							fb_ref.ref('User').orderByChild("name").equalTo(username).once("value", snapshot => {
 								if (snapshot.exists()) {
-									user.existing(Object.keys(snapshot.val())[0]);
+									user_key = Object.keys(snapshot.val())[0]
+									user.existing(user_key);
 							} else { user.create() }
 						})
 
@@ -221,6 +227,8 @@
 
 	            document.getElementById('form').style.visibility = 'hidden'
  		    			document.getElementById('container').style.visibility = 'visible'
+
+							show_midi(user.getKey(), user.getName())
 
  		    	can_play = true;
 
@@ -364,6 +372,24 @@
             document.getElementById("create").style.display = "none";
         }
     }
+
+		function show_midi(key, username){
+     //alert(key)
+     key = '-LIpBCScYwp4qtsNvWeP'
+     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
+               console.log(snapshot.val());
+               snapshot.forEach(function(list_midi){
+                 //document.getElementById("show_midi").innerHTML = list_midi.key
+                 console.log('midi list', list_midi.val())
+                 values = list_midi.val()
+                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
+               })
+
+             });
+
+
+       //document.getElementById("show_midi").innerHTML = key
+   }
 
 	</script>
 
