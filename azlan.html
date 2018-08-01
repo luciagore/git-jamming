@@ -62,8 +62,10 @@
 </form>
 </div>
 
-
 <div id='container' style="visibility: hidden;">
+
+	<div id='show_midi'></div>
+
 	<div id="kbd">
 	      <div id="keys">
 	          <ul class="set">
@@ -84,8 +86,11 @@
 	      <br/>
 	      <br/>
 	      <br/>
+
+
 	  </div>
 	<div id='show_div'></div>
+
 	<center>
 		<input type="checkbox" id='recording' name="recording" onclick="record()">
 			<p id='text'> Start recording</p>
@@ -164,7 +169,16 @@
 
 	            var jamSession_name;
 	            var track_name;
-				var username = $("#username").val();
+							var username = $('#username').val();
+							var user = new User(fb_ref, username);
+
+							fb_ref.ref('User').orderByChild("name").equalTo(username).once("value", snapshot => {
+								if (snapshot.exists()) {
+									user_key = Object.keys(snapshot.val())[0]
+									user.existing(user_key);
+							} else { user.create() }
+						})
+
 	            var instrument = $('#instrument').val();
 
 	            if ($("#jSession").val() == 'new'){
@@ -194,7 +208,7 @@
 	            // });
 
 	            jam_session = {username: username, instrument: instrument};
-	            var user = new User(fb_ref, username);
+
 	            var player = new Player(fb_ref);
 	            player.add_user(user.getKey());
 
@@ -212,7 +226,9 @@
 	            track.add_midi(midistore.getKey());
 
 	            document.getElementById('form').style.visibility = 'hidden'
- 		    	document.getElementById('container').style.visibility = 'visible'
+ 		    			document.getElementById('container').style.visibility = 'visible'
+
+							show_midi(user.getKey(), user.getName())
 
  		    	can_play = true;
 
@@ -291,15 +307,14 @@
 
 		var before_len = keystroke_events[keystroke_events.length - 1]['delay'];
 
-		
 			midistore.getLength().then(function(length){
 				console.log('len promise ', length)
 				for (var i = 0; i < keystroke_events.length; i++){
 					if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 					{
-						
+
 						keystroke_events[i].delay += length;
-						
+
 					}
 				}
 				keystroke_events.shift();
@@ -320,23 +335,23 @@
 
 	// 	}
 	// 		console.log('current_len data', data);
-		
+
 	// 		return length_data
 	// 	});
 
 
 
-		
+
 
 	// 	console.log('midistore.getLength()', midistore.getLength());
 	// 	console.log('current_len', current_length);
-		
+
 	// 	for (var i = 0; i < keystroke_events.length; i++){
 	// 		if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 	// 		{
 	// 			console.log('keystroke_events[i].delay', keystroke_events[i].delay)
 	// 			keystroke_events[i].delay += current_length;
-				
+
 	// 		}
 	// 	}
 
@@ -347,7 +362,7 @@
 	// 	midistore.updateMidi(keystroke_events);
 	// 	midistore.updateLength(length);
 
-		
+
 	}
 
 	function newSession(that) {
@@ -357,6 +372,24 @@
             document.getElementById("create").style.display = "none";
         }
     }
+
+		function show_midi(key, username){
+     //alert(key)
+     key = '-LIpBCScYwp4qtsNvWeP'
+     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
+               console.log(snapshot.val());
+               snapshot.forEach(function(list_midi){
+                 //document.getElementById("show_midi").innerHTML = list_midi.key
+                 console.log('midi list', list_midi.val())
+                 values = list_midi.val()
+                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
+               })
+
+             });
+
+
+       //document.getElementById("show_midi").innerHTML = key
+   }
 
 	</script>
 
