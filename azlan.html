@@ -478,9 +478,11 @@ var keystroke_events = [];
 
 
 	
-
+list_of_midis = []
  function get_data (){
+
  	list_of_midis = []
+ 
     js_id = "-LIgRtZFJZYXNFZIHxXP";
 
     //find the jammingSession at the js_id
@@ -509,11 +511,6 @@ var keystroke_events = [];
 
                   midi_obj_details = midi_obj.val()
 
-                  // temp_midi = new MidiStore(fb_ref, midi_obj_details['instrument'], 
-                  //   midi_obj_details['user_id'],
-                  //   midi_obj_details['mididata']);
-
-                  // temp_midi.existing(midi_obj.key);
                   list_of_midis.push(midi_obj_details);
 
                 });
@@ -526,34 +523,32 @@ var keystroke_events = [];
 
     });
 
-    return list_of_midis;
-    //align the midis on the same timeline and play
 
+    //align the midis on the same timeline and play
+    return list_of_midis
  }
 
+list_of_midis = get_data();
 
 	 function play_all(){
-	 list_of_midis = get_data();
-      MIDI.loadPlugin({
-	    soundfontUrl: "./soundfont/",
-	    instrument: "acoustic_grand_piano",
-	    // instrument: "synth_drum",
-	    onprogress: function(state, progress) {
-	      // console.log(state, progress);
-	    },
-	    onsuccess: function() {
 
-	      document.getElementById('loading').style.visibility = 'hidden'
-	      document.getElementById('form').style.visibility = 'visible'
-	      //document.getElementById('jSession').appendChild(document.createTextNode("<option value='sadsa'> what</option>"))
-	      load_js_list(document.getElementById('jSession'));
-	      console.log('MIDI library ready')
-	    }
+    //   MIDI.loadPlugin({
+	   //  soundfontUrl: "./soundfont/",
+	   //  instrument: "acoustic_grand_piano",
+	   //  // instrument: "synth_drum",
+	   //  onprogress: function(state, progress) {
+	   //    // console.log(state, progress);
+	   //  },
+	   //  onsuccess: function() {
 
-  	 });
+	   //    console.log('MIDI library ready')
+	   //  }
 
+  	 // });
 
+      console.log('list_of_midi', list_of_midis)
       list_of_midis.forEach(function(midi_obj){
+      	console.log('i', 1)
         mididata = midi_obj['mididata']
         mididata.forEach(
           function(one_midi){
