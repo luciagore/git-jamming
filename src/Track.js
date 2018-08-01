@@ -1,6 +1,6 @@
-function Track(fb_ref){
+function Track(fb_ref, name){
 	this._fb_ref = fb_ref;
-  	this._key = fb_ref.ref('Track').push({'midi_ids': [0]}).key;
+  	this._key = fb_ref.ref('Track').push({'name': name, 'midi_ids': [0]}).key; // added name to track, do unit test and update where we instanstiate
 }
 
 Track.prototype.getKey = function () {

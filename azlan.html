@@ -42,13 +42,17 @@
    <div id='js_list'>
 	   <label>Jamming Session: </label>
 	   <select name='jSession' id='jSession' onchange="newSession(this)">
-	      <option value='js1'>js1</option>
-	      <option value='js2'>js2</option>
 	      <option value="new">Create a new session</option>
 	      <option selected="selected">pick a session</option>
 	   </select>
 	</div>
-   <br /><br />
+   <br />
+   <div id='select_tracks' style="display: none;">
+   		<select name='tracks_in_js' id='tracks_in_js'>
+	   </select>
+
+   </div>
+   <br />
    <div id="create" style="display: none;">
       <label for="session">Name the session</label> 
       <input type="text" id='new_session' name="new_session"></input>
@@ -152,29 +156,16 @@ $(document).ready(function(){
             if ($("#jSession").val() == 'new'){
             	jamSession_name = $('#new_session').val();
 
+            	new_track_name = $('#new_tract').val();
+
+
+
+
+
             } else {
             	jamSession_name = $("#jSession").val();
             }
             
-
-
-           
-            // var ref = firebase.database().ref().child('jamming_session');
-            // var jam_session = {username: user, instrument: instrument};
-            // ref.push(jam_session, function(error){
-            //   $.ajax({
-            //     type: "POST",
-            //     contentType: "application/json; charset=utf-8",
-            //     url: "jamming.html",
-            //     dataType: "json",
-            //     data: { username: user, instrument: instrument },
-            //     complete:
-            //       function () {
-            //           window.location = "jamming.html";
-            //       }
-            //   });
-            // });
-
             jam_session = {username: username, instrument: instrument};
             var user = new User(fb_ref, username);
             var player = new Player(fb_ref);
@@ -336,10 +327,47 @@ $(document).ready(function(){
 	}
 
 	function newSession(that) {
+		console.log('js_key', that.value)
         if (that.value == "new") {
             document.getElementById("create").style.display = "block";
+            document.getElementById("select_tracks").style.display = "none";
         } else {
             document.getElementById("create").style.display = "none";
+
+            document.getElementById("select_tracks").style.display = "block";
+
+            var select = document.getElementById('tracks_in_js');
+            var len = select.options.length;
+
+            for (var i = 0; i < len; i++){
+            	select.options[i] = null;
+            }
+
+
+
+            
+            fb_ref.ref('JammingSession').child(that.value).child('tracks').once('value').then(
+            	function(tracks){
+            		track_list = tracks.val();
+            		
+            		for (var i = 0; i < track_list.length; i++){
+
+	            		fb_ref.ref('Track').child(track_list[i]).once('value').then(
+
+	            			function(track){
+	            				console.log("track", track.val())
+	            				once_track = track.val();
+	             				var option = document.createElement("option");
+						    	option.text = once_track['name'];
+						    	option.value = track_list[i]
+						    	select.add(option);
+	            			}
+
+	            		);
+            		}
+
+            	}
+            	);
         }
     }
 
@@ -354,7 +382,7 @@ $(document).ready(function(){
 
     			for (var i = 0; i < list_of_js.length; i++){
     				one_session = jsessions.val()[list_of_js[i]]
-    				console.log('jsession name', one_session['name']);
+    				//console.log('jsession name', one_session['name']);
 
 
     				//element.appendChild(document.createTextNode(`<option value='${list_of_js[i]}'>'${one_session['name']}'</option>`))
