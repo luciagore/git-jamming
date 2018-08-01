@@ -477,7 +477,7 @@ var keystroke_events = [];
 	 }
 
 
-	 get_data();
+	
 list_of_midis = []
  function get_data (){
     js_id = "-LIgRtZFJZYXNFZIHxXP";
@@ -532,6 +532,7 @@ list_of_midis = []
 
 
 	 function play_all(){
+	 get_data();
       MIDI.loadPlugin({
 	    soundfontUrl: "./soundfont/",
 	    instrument: "acoustic_grand_piano",
