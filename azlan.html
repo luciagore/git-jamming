@@ -83,6 +83,7 @@
 
 	<div id='show_midi'></div>
 	<input type="button" id='play_each' onclick="play_each()" value='Play Each'></input>
+	<input type="button" onclick="play_all()" value="Play all"></input>
 
 
 	<div id="kbd">
@@ -441,21 +442,19 @@ var keystroke_events = [];
 
 
 		function show_midi(key, username){
-     //alert(key)
-     key = '-LIpBCScYwp4qtsNvWeP'
-     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
-               console.log(snapshot.val());
-               snapshot.forEach(function(list_midi){
-                 //document.getElementById("show_midi").innerHTML = list_midi.key
-                 console.log('midi list', list_midi.val())
-                 values = list_midi.val()
-                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
-               })
+     
+		     key = '-LIpBCScYwp4qtsNvWeP'
+		     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
+		               console.log(snapshot.val());
+		               snapshot.forEach(function(list_midi){
+		                 //document.getElementById("show_midi").innerHTML = list_midi.key
+		                 console.log('midi list', list_midi.val())
+		                 values = list_midi.val()
+		                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
+		               })
 
-             });
+		             });
 
-
-       //document.getElementById("show_midi").innerHTML = key
    }
 
 	 function play_each(key){
@@ -474,6 +473,100 @@ var keystroke_events = [];
 								})
 		 				});
 	 }
+
+
+	
+list_of_midis = []
+ function get_data (){
+
+ 	list_of_midis = []
+ 
+    js_id = "-LIgRtZFJZYXNFZIHxXP";
+
+    //find the jammingSession at the js_id
+    fb_ref.ref('JammingSession').child(js_id).once('value').then(function(js){
+
+      console.log('js at js id', js.val())
+      tracks = js.val()['tracks'];
+
+       
+
+      //getting all the tracks from the jammingSession
+      tracks.forEach( function(track){
+        console.log('one track', track)
+
+        //get all the midis from each track in jammingSession
+
+        fb_ref.ref('Track').child(track).child('midi_ids').once('value').then(function(midis){
+          console.log('midis', midis.val());
+            midis_array = midis.val()
+            
+
+            midis_array.forEach(function(midi){
+              fb_ref.ref('MidiStore').child(midi).once('value').then(
+                function(midi_obj){
+                  console.log('midi_obj', midi_obj.val());
+
+                  midi_obj_details = midi_obj.val()
+
+                  list_of_midis.push(midi_obj_details);
+
+                });
+            
+
+          })
+         
+        });
+      });
+
+    });
+
+
+    //align the midis on the same timeline and play
+    return list_of_midis
+ }
+
+list_of_midis = get_data();
+
+	 function play_all(){
+
+    //   MIDI.loadPlugin({
+	   //  soundfontUrl: "./soundfont/",
+	   //  instrument: "acoustic_grand_piano",
+	   //  // instrument: "synth_drum",
+	   //  onprogress: function(state, progress) {
+	   //    // console.log(state, progress);
+	   //  },
+	   //  onsuccess: function() {
+
+	   //    console.log('MIDI library ready')
+	   //  }
+
+  	 // });
+
+      console.log('list_of_midi', list_of_midis)
+      list_of_midis.forEach(function(midi_obj){
+      	console.log('i', 1)
+        mididata = midi_obj['mididata']
+        mididata.forEach(
+          function(one_midi){
+
+
+          let key = one_midi.key;
+          let delay = one_midi.delay
+          setTimeout(function(){
+            //console.log(keystroke_events);
+            console.log(key);
+            play(mapkey(key));
+          }, delay);
+    
+
+
+
+          });
+
+    })
+  }
 
 	</script>
 
