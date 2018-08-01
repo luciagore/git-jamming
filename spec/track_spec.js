@@ -28,7 +28,6 @@ describe('mapping Track to an object', function(){
   });
 
   it("will hold midi_id's", function(){
-   
     expect(track.midi_ids()).toEqual([])
   });
 
@@ -36,6 +35,5 @@ describe('mapping Track to an object', function(){
     track.add_midi(1);
     expect(listofMidis_mock).toEqual([1])
   });
-  
-})
 
+})
