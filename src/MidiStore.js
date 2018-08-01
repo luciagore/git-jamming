@@ -44,7 +44,7 @@ MidiStore.prototype.getUser = function () {
 };
 
 MidiStore.prototype.getLength = async function () {
-  
+
   let value = await getValues_m(this._fb_ref, 'MidiStore', this._key, 'length');
 
   return value;
@@ -58,23 +58,23 @@ MidiStore.prototype.updateLength = function (length) {
     function(data){
       console.log('data in uopdate len', data);
       that._fb_ref.ref('MidiStore').child(that._key+'/length').set(data+length);
-      
+
     });
- 	
+
 };
 
 MidiStore.prototype.updateMidi = function (newdata) {
   that = this;
  	getValues_m(this._fb_ref, 'MidiStore', this._key, 'mididata').then(function(res){
   console.log('promise resolved', res)
-    
+
   console.log('update old data', res)
- 
+
     for (var i = 0; i < newdata.length; i++){
       res.push(newdata[i]);
     }
     that._fb_ref.ref('MidiStore').child(that._key+'/mididata').set(res);
- 
+
   });
 
 
@@ -97,5 +97,5 @@ async function getValues_m(fb_ref, table_name, key, child_key){
 
 
 
-	
+
 }

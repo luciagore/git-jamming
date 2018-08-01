@@ -22,7 +22,6 @@ describe('mapping PLayer to an object', function(){
   });
 
   it("will hold user_id's", function(){
-   
     expect(player.getUsers()).toEqual([])
   });
 
@@ -30,5 +29,5 @@ describe('mapping PLayer to an object', function(){
     player.add_user(1);
     expect(listofUsers_mock).toEqual([1])
   });
-  
+
 })
