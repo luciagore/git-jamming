@@ -477,6 +477,60 @@ var keystroke_events = [];
 	 }
 
 
+	 get_data();
+list_of_midis = []
+ function get_data (){
+    js_id = "-LIgRtZFJZYXNFZIHxXP";
+
+    //find the jammingSession at the js_id
+    fb_ref.ref('JammingSession').child(js_id).once('value').then(function(js){
+
+      console.log('js at js id', js.val())
+      tracks = js.val()['tracks'];
+
+       
+
+      //getting all the tracks from the jammingSession
+      tracks.forEach( function(track){
+        console.log('one track', track)
+
+        //get all the midis from each track in jammingSession
+
+        fb_ref.ref('Track').child(track).child('midi_ids').once('value').then(function(midis){
+          console.log('midis', midis.val());
+            midis_array = midis.val()
+            
+
+            midis_array.forEach(function(midi){
+              fb_ref.ref('MidiStore').child(midi).once('value').then(
+                function(midi_obj){
+                  console.log('midi_obj', midi_obj.val());
+
+                  midi_obj_details = midi_obj.val()
+
+                  // temp_midi = new MidiStore(fb_ref, midi_obj_details['instrument'], 
+                  //   midi_obj_details['user_id'],
+                  //   midi_obj_details['mididata']);
+
+                  // temp_midi.existing(midi_obj.key);
+                  list_of_midis.push(midi_obj_details);
+
+                });
+            
+
+          })
+         
+        });
+      });
+
+    });
+
+
+    //align the midis on the same timeline and play
+
+ }
+
+
 	 function play_all(){
       MIDI.loadPlugin({
 	    soundfontUrl: "./soundfont/",
