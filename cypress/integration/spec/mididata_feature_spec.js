@@ -22,13 +22,13 @@ context('Actions', () => {
     cy.get('#recording').check();
 
 
-    {'a'};
+    cy.get('body').trigger('keydown', { keyCode: 65 });
     cy.wait(500);
 
-    {'s'};
+    cy.get('body').trigger('keydown', { keyCode: 87 });
     cy.wait(700);
 
-    {'h'};
+    cy.get('body').trigger('keydown', { keyCode: 87 });
     cy.wait(350);
 
     cy.get('#recording').uncheck();
@@ -38,7 +38,7 @@ context('Actions', () => {
     cy.get('#save_recording').click();
 
      //cy.location("pathname").should('eq', '/jamming.html')
-     
+
      //cy.contains('Welcome, Rob! You chose Piano for this session')
 
   })

@@ -2,25 +2,27 @@
 
 context('Notes', () => {
   beforeEach(() => {
-    cy.visit('jamming.html')
+    cy.visit('azlan.html')
   })
 
   // https://on.cypress.io/interacting-with-elements
 
-  it('12 buttons on screen', () => {
+  it('has a keyboard', () => {
 
-     cy.contains('Button 1')
-     cy.contains('Button 2')
-     cy.contains('Button 3')
-     cy.contains('Button 4')
-     cy.contains('Button 5')
-     cy.contains('Button 6')
-     cy.contains('Button 7')
-     cy.contains('Button 8')
-     cy.contains('Button 9')
-     cy.contains('Button 10')
-     cy.contains('Button 11')
-     cy.contains('Button 12')
+    cy.get('input[name=username]')
+       .type('Rob')
+
+    cy.get('select[name=instrument]')
+       .select('Piano')
+   	cy.get('select[name=jSession]')
+   	.select('Create a new session')
+
+   	cy.get('input[name=new_session]')
+       .type('newest session')
+
+    cy.get('#begin_jamming').submit();
+
+     cy.contains('kbd')
 
 
   })
