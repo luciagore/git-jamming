@@ -19,7 +19,7 @@
 <body>
 
   <label>Instrument: </label>
-  <select name='instrument' id='instrument' onchange="test()">
+  <select name='instrument' id='instrument' onchange="selectedInstrument()">
      <option value="acoustic_grand_piano">Piano</option>
      <option value="steel_drums">Drums</option>
      <option value="electric_bass_finger">Bass</option>
@@ -33,7 +33,7 @@
 
 <script type="text/javascript">
 var inst = ''
-function test(){
+function selectedInstrument(){
   alert(document.getElementById('instrument').value)
   inst = document.getElementById('instrument').value
 }
