@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title></title>
+	<link rel="stylesheet" href="index.css">
 
 	<script src="webmidi.js" type="text/javascript"></script>
     <script src="inc/shim/Base64.js" type="text/javascript"></script>
@@ -22,8 +23,9 @@
     <script src="src/User.js"></script>
     <script src="src/Player.js"></script>
 
-    
-	
+
+
+
 </head>
 <body>
 
@@ -54,10 +56,10 @@
    </div>
    <br />
    <div id="create" style="display: none;">
-      <label for="session">Name the session</label> 
+      <label for="session">Name the session</label>
       <input type="text" id='new_session' name="new_session"></input>
       <br />
-      <label for="session">Name the track</label> 
+      <label for="session">Name the track</label>
       <input type="text" id='new_tract' name="new_track"></input>
       <br />
    </div>
@@ -65,7 +67,6 @@
    <input type="submit" name='submit' value="Submit"> </input>
 </form>
 </div>
-
 
 <div id='container' style="visibility: hidden;">
 	<input type="checkbox" id='recording' name="recording" onclick="record()">
@@ -80,6 +81,45 @@
 	
 </div>
 
+	<div id='show_midi'></div>
+	<input type="button" id='play_each' onclick="play_each()" value='Play Each'></input>
+
+
+	<div id="kbd">
+	      <div id="keys">
+	          <ul class="set">
+	              <li class="white b"></li>
+	              <li class="black as"></li>
+	              <li class="white a"></li>
+	              <li class="black gs"></li>
+	              <li class="white g"></li>
+	              <li class="black fs"></li>
+	              <li class="white f"></li>
+	              <li class="white e"></li>
+	              <li class="black ds"></li>
+	              <li class="white d"></li>
+	              <li class="black cs"></li>
+	              <li class="white c"></li>
+	          </ul>
+	      </div>
+	      <br/>
+	      <br/>
+	      <br/>
+
+
+	  </div>
+	<div id='show_div'></div>
+
+	<center>
+		<input type="checkbox" id='recording' name="recording" onclick="record()">
+			<p id='text'> Start recording</p>
+		</input>
+
+		<button id='saved_keys' onclick="show()">Show</button>
+		<button id='log' onclick="log()">Play</button>
+		<button id='save_recording' onclick="save()">Save Recording</button>
+ 	</center>
+</div>
 
 
 <script type="text/javascript">
@@ -137,60 +177,67 @@ var start_recording;
 var end_recording;
 var keystroke_events = [];
 
-var jam_session = {};
-var fb_ref = firebase.database();
-var can_play = false;
-var mididata = [{key: 'start', delay: 0}];
-var midistore;
- 
-$(document).ready(function(){
-       $('#begin_jamming').submit(function(event){
 
-            event.preventDefault();
+	var jam_session = {};
+	var fb_ref = firebase.database();
+	var can_play = false;
+	var mididata = [{key: 'start', delay: 0}];
+	var midistore;
 
-            var jamSession_name;
-            var track_name;
-			var username = $("#username").val();
-            var instrument = $('#instrument').val();
+	$(document).ready(function(){
+           $('#begin_jamming').submit(function(event){
 
-            if ($("#jSession").val() == 'new'){
-            	jamSession_name = $('#new_session').val();
+	            event.preventDefault();
 
-            	new_track_name = $('#new_tract').val();
+	            var jamSession_name;
+	            var track_name;
+							var username = $('#username').val();
+							var user = new User(fb_ref, username);
 
+							fb_ref.ref('User').orderByChild("name").equalTo(username).once("value", snapshot => {
+								if (snapshot.exists()) {
+									user_key = Object.keys(snapshot.val())[0]
+									user.existing(user_key);
+							} else { user.create() }
+						})
 
+	            var instrument = $('#instrument').val();
 
+	            if ($("#jSession").val() == 'new'){
+	            	jamSession_name = $('#new_session').val();
 
+	            } else {
+	            	jamSession_name = $("#jSession").val();
+	            }
 
-            } else {
-            	jamSession_name = $("#jSession").val();
-            }
-            
-            jam_session = {username: username, instrument: instrument};
-            var user = new User(fb_ref, username);
-            var player = new Player(fb_ref);
-            player.add_user(user.getKey());
+	            jam_session = {username: username, instrument: instrument};
 
-            var track = new Track(fb_ref, "new track");
+	            var player = new Player(fb_ref);
+	            player.add_user(user.getKey());
 
-            var js = new JammingSession(fb_ref, jamSession_name)
-            js.addTrack(track.getKey());
-            js.addUser(player.getKey());
+	            var track = new Track(fb_ref, "new track");
 
-            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(), 
-            	mididata
-            	);
-            midistore = midistore_temp;
-			
-            track.add_midi(midistore.getKey());
+	            var js = new JammingSession(fb_ref, jamSession_name)
+	            js.addTrack(track.getKey());
+	            js.addUser(player.getKey());
 
-            document.getElementById('form').style.visibility = 'hidden'
-		    	document.getElementById('container').style.visibility = 'visible'
+	            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(),
+	            	mididata
+	            	);
+	            midistore = midistore_temp;
 
-		    	can_play = true;
-            
-      	});
-  });
+	            track.add_midi(midistore.getKey());
+
+	            document.getElementById('form').style.visibility = 'hidden'
+ 		    			document.getElementById('container').style.visibility = 'visible'
+
+							show_midi(user.getKey(), user.getName())
+
+ 		    	can_play = true;
+
+	      	});
+      });
+
 
 	function record(){
 		// Get the checkbox
@@ -259,20 +306,18 @@ $(document).ready(function(){
 	}
 
 
-
 	function save(){
 
-		var before_len = keystroke_events[keystroke_events.length - 1]['delay'];
+		var before_len = keystroke_events[(keystroke_events.length - 1)]['delay'];
 
-		
 			midistore.getLength().then(function(length){
 				console.log('len promise ', length)
 				for (var i = 0; i < keystroke_events.length; i++){
 					if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 					{
-						
+
 						keystroke_events[i].delay += length;
-						
+
 					}
 				}
 				keystroke_events.shift();
@@ -284,9 +329,6 @@ $(document).ready(function(){
 				keystroke_events = [];
 			});
 
-		
-
-
 	// midistore.getMididata().then(function(data) {
 	// 		console.log('data in promise', data);
 	// 		return data
@@ -296,23 +338,23 @@ $(document).ready(function(){
 
 	// 	}
 	// 		console.log('current_len data', data);
-		
+
 	// 		return length_data
 	// 	});
 
 
 
-		
+
 
 	// 	console.log('midistore.getLength()', midistore.getLength());
 	// 	console.log('current_len', current_length);
-		
+
 	// 	for (var i = 0; i < keystroke_events.length; i++){
 	// 		if(keystroke_events[i]['key'] != 'start' || keystroke_events[i]['key'] != 'end')
 	// 		{
 	// 			console.log('keystroke_events[i].delay', keystroke_events[i].delay)
 	// 			keystroke_events[i].delay += current_length;
-				
+
 	// 		}
 	// 	}
 
@@ -323,7 +365,7 @@ $(document).ready(function(){
 	// 	midistore.updateMidi(keystroke_events);
 	// 	midistore.updateLength(length);
 
-		
+
 	}
 
 	function newSession(that) {
@@ -374,8 +416,8 @@ $(document).ready(function(){
 
 
 
-    function load_js_list(element){
 
+    function load_js_list(element){
     	fb_ref.ref('JammingSession').once('value').then(
     		function(jsessions){
     			console.log('jsession', Object.keys(jsessions.val()) );
@@ -396,6 +438,45 @@ $(document).ready(function(){
     		}
     		);
     }
+
+
+		function show_midi(key, username){
+     //alert(key)
+     key = '-LIpBCScYwp4qtsNvWeP'
+     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
+               console.log(snapshot.val());
+               snapshot.forEach(function(list_midi){
+                 //document.getElementById("show_midi").innerHTML = list_midi.key
+                 console.log('midi list', list_midi.val())
+                 values = list_midi.val()
+                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
+               })
+
+             });
+
+
+       //document.getElementById("show_midi").innerHTML = key
+   }
+
+	 function play_each(key){
+		 key = '-LIpk36V4L3ak7vXpP5e'
+		 fb_ref.ref('MidiStore').child(key).child('mididata').on("value", function(snapshot) {
+		 					console.log('mididata', snapshot.val());
+		 						//document.getElementById("show_midi").innerHTML = list_midi.key
+		 						values = snapshot.val()
+								values.forEach(function(note) {
+									let key = note.key;
+									let delay = note.delay
+									setTimeout(function(){
+										//console.log(keystroke_events);
+										console.log(key);
+										play(mapkey(key));
+									}, delay);
+								})
+							}
+		 					})
+		 				});
+	 }
 
 	</script>
 

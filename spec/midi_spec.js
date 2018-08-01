@@ -22,7 +22,6 @@ describe('MidiStore',function(){
 
 	beforeEach(function(){
 		midistore = new MidiStore(fb_ref_double, "piano", 'lucy', mididata);
-
 	});
   it('has an ID', function(){
     expect(midistore.getKey()).toEqual("SOME_RANDOM_FB_KEY")
@@ -46,8 +45,6 @@ describe('MidiStore',function(){
     var time = midistore.getLength().then(function(data){
       expect(data).toEqual(0)
     });
-
-    
   })
 
 	it('updates midi', function(){

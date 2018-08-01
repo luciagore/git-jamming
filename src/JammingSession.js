@@ -1,6 +1,6 @@
 var JammingSession = function (fb_ref, name) {
 	this._fb_ref = fb_ref;
-  	this._key = fb_ref.ref('JammingSession').push({'name': name, 'users': [0], 'tracks': [0]}).key;
+  	this._key = fb_ref.ref('JammingSession').push({'name': name, 'players': [0], 'tracks': [0]}).key;
 }
 
 JammingSession.prototype.getKey = function() {
@@ -12,15 +12,15 @@ JammingSession.prototype.getName = function() {
 };
 
 JammingSession.prototype.getUsers = function() {
-	return getValues_js(this._fb_ref, this._key, 'users')
+	return getValues_js(this._fb_ref, this._key, 'players')
 };
 
 JammingSession.prototype.addUser = function(user) {
-	updateData(this._fb_ref, this._key, 'users', user, 'add')
+	updateData(this._fb_ref, this._key, 'players', user, 'add')
 };
 
 JammingSession.prototype.deleteUser = function(user) {
-	updateData(this._fb_ref, this._key, 'users', user, 'delete')
+	updateData(this._fb_ref, this._key, 'players', user, 'delete')
 };
 
 JammingSession.prototype.getTracks = function() {
