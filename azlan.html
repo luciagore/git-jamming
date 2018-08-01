@@ -415,6 +415,9 @@ var keystroke_events = [];
 
 
 
+
+
+    function load_js_list(element){
     	fb_ref.ref('JammingSession').once('value').then(
     		function(jsessions){
     			console.log('jsession', Object.keys(jsessions.val()) );
@@ -424,23 +427,13 @@ var keystroke_events = [];
 
     			for (var i = 0; i < list_of_js.length; i++){
     				one_session = jsessions.val()[list_of_js[i]]
-    				//console.log('jsession name', one_session['name']);
-
-
-    				//element.appendChild(document.createTextNode(`<option value='${list_of_js[i]}'>'${one_session['name']}'</option>`))
-
-    				//element.appendChild(document.createTextNode("<option value=\"sadsa\"> what</option>"))
-
+    				
     				var option = document.createElement("option");
 			    	option.text = one_session['name'];
 			    	option.value = list_of_js[i]
 			    	element.add(option);
 
     			}
-
-
-    			
-
 
     		}
     		);
