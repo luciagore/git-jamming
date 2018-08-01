@@ -76,9 +76,9 @@
 	<button id='saved_keys' onclick="show()">Show</button>
 	<button id='log' onclick="log()">Play</button>
 	<button id='save_recording' onclick="save()">Save Recording</button>
-	
+
 	<input type="input" name='notes' id='notes'></input>
-	
+
 </div>
 
 	<div id='show_midi'></div>
@@ -387,11 +387,11 @@ var keystroke_events = [];
 
 
 
-            
+
             fb_ref.ref('JammingSession').child(that.value).child('tracks').once('value').then(
             	function(tracks){
             		track_list = tracks.val();
-            		
+
             		for (var i = 0; i < track_list.length; i++){
 
 	            		fb_ref.ref('Track').child(track_list[i]).once('value').then(
@@ -423,11 +423,11 @@ var keystroke_events = [];
     			console.log('jsession', Object.keys(jsessions.val()) );
     			list_of_js = Object.keys(jsessions.val());
 
-    			
+
 
     			for (var i = 0; i < list_of_js.length; i++){
     				one_session = jsessions.val()[list_of_js[i]]
-    				
+
     				var option = document.createElement("option");
 			    	option.text = one_session['name'];
 			    	option.value = list_of_js[i]
@@ -461,8 +461,7 @@ var keystroke_events = [];
 	 function play_each(key){
 		 key = '-LIpk36V4L3ak7vXpP5e'
 		 fb_ref.ref('MidiStore').child(key).child('mididata').on("value", function(snapshot) {
-		 					console.log('mididata', snapshot.val());
-		 						//document.getElementById("show_midi").innerHTML = list_midi.key
+
 		 						values = snapshot.val()
 								values.forEach(function(note) {
 									let key = note.key;
@@ -473,8 +472,6 @@ var keystroke_events = [];
 										play(mapkey(key));
 									}, delay);
 								})
-							}
-		 					})
 		 				});
 	 }
 
