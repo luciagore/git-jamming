@@ -15,26 +15,47 @@
   <script src="config/firebase_config.js"></script>
 
 </script>
+
 <body>
+
+  <label>Instrument: </label>
+  <select name='instrument' id='instrument' onchange="test()">
+     <option value="acoustic_grand_piano">Piano</option>
+     <option value="steel_drums">Drums</option>
+  </select>
+
+
+
+
+
+
   <center>
     Welcome! You chose Piano for this session.
   </center>
 </body>
 
 <script type="text/javascript">
+var inst = ''
+function test(){
+  alert(document.getElementById('instrument').value)
+  inst = document.getElementById('instrument').value
+}
 function play(keynote) {
+
+var instrumentName = ["acoustic_grand_piano",
+                      "electric_bass_finger",
+                      "marimba",
+                      "steel_drums"
+                      ]
 
 MIDI.loadPlugin({
   soundfontUrl: "./soundfont/",
-  instrument: "acoustic_grand_piano",
-  instrument: "steel_drums",
-  instrument: "electric_bass_finger",
-  instrument: "marimba",
+  instrument: inst,
   onprogress: function(state, progress) {
     // console.log(state, progress);
   },
   onsuccess: function() {
-    MIDI.programChange(0, MIDI.GM.byName["marimba"].number);
+    MIDI.programChange(0, MIDI.GM.byName[inst].number);
     var delay = 0; // play one note every quarter second
     var note = keynote; // the MIDI note
     var velocity = 127; // how hard the note hits
