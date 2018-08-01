@@ -22,12 +22,8 @@
   <select name='instrument' id='instrument' onchange="test()">
      <option value="acoustic_grand_piano">Piano</option>
      <option value="steel_drums">Drums</option>
+     <option value="electric_bass_finger">Bass</option>
   </select>
-
-
-
-
-
 
   <center>
     Welcome! You chose Piano for this session.
@@ -42,11 +38,6 @@ function test(){
 }
 function play(keynote) {
 
-var instrumentName = ["acoustic_grand_piano",
-                      "electric_bass_finger",
-                      "marimba",
-                      "steel_drums"
-                      ]
 
 MIDI.loadPlugin({
   soundfontUrl: "./soundfont/",
