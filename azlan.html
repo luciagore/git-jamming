@@ -442,21 +442,19 @@ var keystroke_events = [];
 
 
 		function show_midi(key, username){
-     //alert(key)
-     key = '-LIpBCScYwp4qtsNvWeP'
-     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
-               console.log(snapshot.val());
-               snapshot.forEach(function(list_midi){
-                 //document.getElementById("show_midi").innerHTML = list_midi.key
-                 console.log('midi list', list_midi.val())
-                 values = list_midi.val()
-                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
-               })
+     
+		     key = '-LIpBCScYwp4qtsNvWeP'
+		     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
+		               console.log(snapshot.val());
+		               snapshot.forEach(function(list_midi){
+		                 //document.getElementById("show_midi").innerHTML = list_midi.key
+		                 console.log('midi list', list_midi.val())
+		                 values = list_midi.val()
+		                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
+		               })
 
-             });
+		             });
 
-
-       //document.getElementById("show_midi").innerHTML = key
    }
 
 	 function play_each(key){
