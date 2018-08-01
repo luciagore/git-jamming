@@ -478,8 +478,9 @@ var keystroke_events = [];
 
 
 	
-list_of_midis = []
+
  function get_data (){
+ 	list_of_midis = []
     js_id = "-LIgRtZFJZYXNFZIHxXP";
 
     //find the jammingSession at the js_id
@@ -525,14 +526,14 @@ list_of_midis = []
 
     });
 
-
+    return list_of_midis;
     //align the midis on the same timeline and play
 
  }
 
 
 	 function play_all(){
-	 get_data();
+	 list_of_midis = get_data();
       MIDI.loadPlugin({
 	    soundfontUrl: "./soundfont/",
 	    instrument: "acoustic_grand_piano",
