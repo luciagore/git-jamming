@@ -159,6 +159,14 @@ $(document).ready(function(){
             	new_track_name = $('#new_tract').val();
 
 
+            var player = new Player(fb_ref);
+            player.add_user(user.getKey());
+
+            var track = new Track(fb_ref, "new track");
+
+            var js = new JammingSession(fb_ref, jamSession_name)
+
+
 
 
 
@@ -168,12 +176,6 @@ $(document).ready(function(){
             
             jam_session = {username: username, instrument: instrument};
             var user = new User(fb_ref, username);
-            var player = new Player(fb_ref);
-            player.add_user(user.getKey());
-
-            var track = new Track(fb_ref, "new track");
-
-            var js = new JammingSession(fb_ref, jamSession_name)
             js.addTrack(track.getKey());
             js.addUser(player.getKey());
 
@@ -403,6 +405,11 @@ $(document).ready(function(){
     		}
     		);
     }
+
+    // function db_midi(key){
+    // 	//-LIogWjKec4tgfq5165G
+    	
+    // }
 
 	</script>
 

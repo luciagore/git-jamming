@@ -3,9 +3,27 @@ var MidiStore = function(fb_ref, instrument, user_id, mididata) {
   this._fb_ref = fb_ref;
   this._mididata = mididata
   this._user_id = user_id
-  this._key = fb_ref.ref('MidiStore').push({"instrument": instrument, "user_id": user_id, "mididata": mididata, 'length': 0}).key;
-  //console.log('key from const', this._key)
+  this._key = ""
+        
 }
+
+MidiStore.prototype.create = function () {
+  this._key = this._fb_ref.ref('MidiStore').push({"instrument": this._instrument, "user_id": this._user_id, "mididata": this._mididata, 'length': 0}).key;
+};
+
+MidiStore.prototype.existing = function (key) {
+  that = this;
+  this._fb_ref.ref('MidiStore').child(key).once('value').then(
+    function(snapshot){
+      data = snapshot.val()
+    
+      that._instrument = data['instrument'];
+      that._user_id = data['user_id']
+      that._key = key
+  });
+
+};
+
 
 MidiStore.prototype.getKey = function () {
   return this._key;
