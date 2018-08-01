@@ -24,17 +24,20 @@
 <script type="text/javascript">
 function play(keynote) {
 
+  var instrumentName = [
+    "acoustic_grand_piano",
+    "steel_drums",
+    "electric_bass_finger",
+    "marimba"
+  ]
+
 MIDI.loadPlugin({
   soundfontUrl: "./soundfont/",
-  instrument: "acoustic_grand_piano",
-  instrument: "steel_drums",
-  instrument: "electric_bass_finger",
-  instrument: "marimba",
   onprogress: function(state, progress) {
     // console.log(state, progress);
   },
   onsuccess: function() {
-    MIDI.programChange(0, MIDI.GM.byName["marimba"].number);
+    MIDI.programChange(0, MIDI.GM.byName[instrumentName[0]].number);
     var delay = 0; // play one note every quarter second
     var note = keynote; // the MIDI note
     var velocity = 127; // how hard the note hits
