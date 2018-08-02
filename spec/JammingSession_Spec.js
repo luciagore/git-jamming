@@ -23,12 +23,12 @@ describe('mapping JammingSession to an object', function(){
                       on: function(value){},
                       set: function(value){},
                       child: function(name){return {set: function(value){
-                        
+
 
                         // if(action == 'add'){
                         //   console.log('vale in add', value[0])
                         //   //listofusers_mock.push(value[0])
-                         
+
                         // }
                         // else if(action == 'delete') {
                         //   console.log('vale in delete', value[0])
@@ -50,7 +50,7 @@ describe('mapping JammingSession to an object', function(){
     spyOn(jamming_session, 'getUsers').and.returnValue(listofusers_mock);
     spyOn(jamming_session, 'getTracks').and.returnValue(listoftracks_mock);
     spyOn(jamming_session, 'getName').and.returnValue("My jamming session");
-  
+
     spyOn(window, 'getValues_js').and.callFake(function(ref, key, child_key) {
       var array;
       switch (child_key) {
@@ -59,7 +59,7 @@ describe('mapping JammingSession to an object', function(){
           break;
         case 'tracks':
           array = listoftracks_mock
-          break;  
+          break;
         default:
           // statements_def
           break;
@@ -67,7 +67,7 @@ describe('mapping JammingSession to an object', function(){
       return array;
     });
 
-    
+
   });
 
   it("has an ID", function(){
@@ -133,8 +133,8 @@ describe('mapping JammingSession to an object', function(){
   });
 
 
- 
 
-  
-  
+
+
+
 })

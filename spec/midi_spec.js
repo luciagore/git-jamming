@@ -32,7 +32,7 @@ describe('MidiStore',function(){
   })
 
   it('stores a set of notes', function(){
-    spyOn(window, 'getValues_m').and.returnValue(mididata);
+    spyOn(window, 'getValues_m').and.returnValue(mididata));
     expect(midistore.getMididata()).toEqual(mididata)
   })
 
@@ -48,7 +48,7 @@ describe('MidiStore',function(){
   })
 
 	it('updates midi', function(){
-    spyOn(window, 'getValues_m.then').and.returnValue(mididata);
+    spyOn(window, 'getValues_m').and.returnValue(mididata);
 		var addition = { note:1, delay: 21 };
 		midistore.updateMidi(addition);
 		mididata[4] = addition
