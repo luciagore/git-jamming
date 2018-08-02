@@ -1,7 +1,7 @@
 function Track(fb_ref, name){
 	this._fb_ref = fb_ref;
 	this._name = 
-  	this._key = '' // added name to track, do unit test and update where we instanstiate
+  	this._key = '' 
   	this._midi_ids = []
 }
 
@@ -13,8 +13,6 @@ Track.prototype.create = function () {
 Track.prototype.existing = async function (key) {
   that = this;
   let snapshot = await this._fb_ref.ref('Track').child(key).once('value')
-
-    
       data = snapshot.val()
     
       that._name = data['name'];
@@ -25,7 +23,6 @@ Track.prototype.existing = async function (key) {
   return snapshot;
 
 };
-
 
 Track.prototype.getKey = function () {
   return this._key
