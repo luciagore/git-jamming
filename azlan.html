@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -35,11 +36,13 @@
    <label>User name: </label>
    <input type="text" id='username' name="username"></input>
    <br/>
-   <label>Instrument: </label>
-   <select name='instrument' id='instrument'>
-      <option>Piano</option>
-      <option>Drums</option>
-   </select>
+	 <label>Instrument: </label>
+	 <select name='instrument' id='instrument' onchange="instrument()">
+			<option value="acoustic_grand_piano">Piano</option>
+			<option value="steel_drums">Drums</option>
+			<option value="electric_bass_finger">Bass</option>
+			<option value="marimba">Marimba</option>
+	 </select>
    <br/>
    <label>Jamming Session: </label>
    <select name='jSession' id='jSession' onchange="newSession(this)">
@@ -100,12 +103,14 @@
 
 <script type="text/javascript">
 
+		var inst = ''
+		function selectedInstrument(){
+		  alert(document.getElementById('instrument').value)
+		  inst = document.getElementById('instrument').value
+		}
     MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
-		instrument: "acoustic_grand_piano",
-		instrument: "steel_drums",
-		// instrument: "electric_bass_finger",
-		// instrument: "marimba",
+		instrument: inst,
     onprogress: function(state, progress) {
       // console.log(state, progress);
     },
@@ -135,9 +140,9 @@
     };
 
   function play(keynote) {
-		MIDI.programChange(0, MIDI.GM.byName["acoustic_grand_piano"].number);
+			MIDI.programChange(0, MIDI.GM.byName[inst].number);
 
-    var delay = 0; // play one note every quarter second
+    	var delay = 0; // play one note every quarter second
       var note = keynote; // the MIDI note
       var velocity = 127; // how hard the note hits
       // play the note
