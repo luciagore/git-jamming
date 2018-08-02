@@ -49,16 +49,16 @@
 	   </select>
 	</div>
    <br />
-   <div id='select_tracks' style="display: none;" onchange="select_midis(this)">
+   <div id='select_tracks' style="display: none;">
    		<label>Tracks : </label>
-   		<select name='tracks_in_js' id='tracks_in_js' >
+   		<select name='tracks_in_js' id='tracks_in_js' onchange="select_midis(this)">
 	   </select>
    </div>
 
    	<div id='select_midi' style="display: none;">
-   		<label>Midi Notes : </label>
-   		<select name='Notes_in_track' id='Notes_in_track'>
-	   </select>
+   		 <label>Midi Notes : </label>
+   		<!-- <select name='Notes_in_track' id='Notes_in_track' onchange="midi_selected(this)">
+	   </select> -->
 	</div>
 
    <br />
@@ -99,7 +99,7 @@
 
 
 	  </div>
-	  
+
 	<input type="checkbox" id='recording' name="recording" onclick="record()">
 		<p id='text'> Start recording</p>
 	</input>
@@ -394,7 +394,10 @@ var keystroke_events = [];
             	select.options[i] = null;
             }
 
-
+            var option = document.createElement("option");
+            option.text = "New midi notes";
+			option.value = "new"
+	    	select.add(option);
 
 
             fb_ref.ref('JammingSession').child(that.value).child('tracks').once('value').then(
@@ -402,15 +405,17 @@ var keystroke_events = [];
             		track_list = tracks.val();
 
             		for (var i = 0; i < track_list.length; i++){
-
+						track_key = track_list[i]
 	            		fb_ref.ref('Track').child(track_list[i]).once('value').then(
 
 	            			function(track){
+	            				//alert(track_key)
+
 	            				console.log("track", track.val())
 	            				once_track = track.val();
 	             				var option = document.createElement("option");
 						    	option.text = once_track['name'];
-						    	option.value = track_list[i]
+						    	option.value = track_key
 						    	select.add(option);
 	            			}
 
@@ -448,11 +453,62 @@ var keystroke_events = [];
     		);
     }
 
+
 function select_midis(that){
+		
+	key = that.value
+
+	if (key == "new") {
+           
+            document.getElementById("select_midi").style.display = "none";
+
+            
+
+        } else {
+            document.getElementById("select_midi").style.display = "block";
+
+            let element = document.getElementById("Notes_in_track")
+            if(typeof(element) != 'undefined' && element != null) {
+            	
+				element.parentNode.removeChild(element);
+            }
+
+            var myDiv = document.getElementById("select_midi");
+
+            var midi_dropdown = document.createElement("select");
+			midi_dropdown.id = "Notes_in_track";
+			midi_dropdown.text = "Midi Notes :";
+			myDiv.appendChild(midi_dropdown);
 
 
+			t = new Track(fb_ref, "")
+			t.existing(key).then(function(data){
+				list_midi = data
+			
+			
+				console.log("t name" ,t.getName())
+				list_midi = t.midi_ids();
+
+				list_midi.forEach(function(midi, index){
+			
+					var option = document.createElement("option");
+						    	option.text = "midi_"+index;
+						    	option.value = midi
+						    	midi_dropdown.add(option);
+				}); 
+			});
+		}
 }
-		function show_midi(key, username){
+function midi_selected(that){
+	console.log('midi key selected: ', that.value)
+}
+	
+
+
+
+
+	
+	function show_midi(key, username){
      
 		     key = '-LIpBCScYwp4qtsNvWeP'
 		     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
