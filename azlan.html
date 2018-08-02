@@ -35,11 +35,13 @@
    <label>User name: </label>
    <input type="text" id='username' name="username"></input>
    <br/>
-   <label>Instrument: </label>
-   <select name='instrument' id='instrument'>
-      <option>Piano</option>
-      <option>Drums</option>
-   </select>
+	 <label>Instrument: </label>
+	 <select name='instrument' id='instrument' onchange="selectedInstrument()">
+			<option value="acoustic_grand_piano">Piano</option>
+			<option value="steel_drums">Drums</option>
+			<option value="electric_bass_finger">Bass</option>
+			<option value="marimba">Marimba</option>
+	 </select>
    <br/>
    <div id='js_list'>
 	   <label>Jamming Session: </label>
@@ -99,7 +101,7 @@
 
 
 	  </div>
-	  
+
 	<input type="checkbox" id='recording' name="recording" onclick="record()">
 		<p id='text'> Start recording</p>
 	</input>
@@ -117,7 +119,7 @@
 	<input type="button" onclick="play_all()" value="Play all"></input>
 
 
-	
+
 	<div id='show_div'></div>
 
 	<!-- <center>
@@ -133,10 +135,15 @@
 
 
 <script type="text/javascript">
-    MIDI.loadPlugin({
-    soundfontUrl: "./soundfont/",
-    instrument: "acoustic_grand_piano",
-    // instrument: "synth_drum",
+		var inst = ''
+		function selectedInstrument(){
+			alert(document.getElementById('instrument').value)
+			inst = document.getElementById('instrument').value
+
+		}
+		MIDI.loadPlugin({
+		soundfontUrl: "./soundfont/",
+		instrument: inst,
     onprogress: function(state, progress) {
       // console.log(state, progress);
     },
@@ -453,7 +460,7 @@ function select_midis(that){
 
 }
 		function show_midi(key, username){
-     
+
 		     key = '-LIpBCScYwp4qtsNvWeP'
 		     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
 		               console.log(snapshot.val());
@@ -486,12 +493,12 @@ function select_midis(that){
 	 }
 
 
-	
+
 list_of_midis = []
  function get_data (){
 
  	list_of_midis = []
- 
+
     js_id = "-LIgRtZFJZYXNFZIHxXP";
 
     //find the jammingSession at the js_id
@@ -500,7 +507,7 @@ list_of_midis = []
       console.log('js at js id', js.val())
       tracks = js.val()['tracks'];
 
-       
+
 
       //getting all the tracks from the jammingSession
       tracks.forEach( function(track){
@@ -511,7 +518,7 @@ list_of_midis = []
         fb_ref.ref('Track').child(track).child('midi_ids').once('value').then(function(midis){
           console.log('midis', midis.val());
             midis_array = midis.val()
-            
+
 
             midis_array.forEach(function(midi){
               fb_ref.ref('MidiStore').child(midi).once('value').then(
@@ -523,10 +530,10 @@ list_of_midis = []
                   list_of_midis.push(midi_obj_details);
 
                 });
-            
+
 
           })
-         
+
         });
       });
 
@@ -570,7 +577,7 @@ list_of_midis = get_data();
             console.log(key);
             play(mapkey(key));
           }, delay);
-    
+
 
 
 
