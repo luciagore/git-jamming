@@ -36,9 +36,11 @@
    <input type="text" id='username' name="username"></input>
    <br/>
    <label>Instrument: </label>
-   <select name='instrument' id='instrument'>
-      <option>Piano</option>
-      <option>Drums</option>
+   <select name='instrument' id='instrument' onchange="selectedInstrument(this)">
+      <option value="acoustic_grand_piano">Piano</option>
+      <option value="steel_drums">Drums</option>
+      <option value="electric_bass_finger">Bass</option>
+      <option value="marimba">Marimba</option>
    </select>
    <br/>
    <div id='js_list'>
@@ -135,8 +137,8 @@
 <script type="text/javascript">
     MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
-    instrument: "acoustic_grand_piano",
-    // instrument: "synth_drum",
+    instrument: ["acoustic_grand_piano", "steel_drums", "electric_bass_finger", "marimba"],
+   
     onprogress: function(state, progress) {
       // console.log(state, progress);
     },
@@ -147,6 +149,8 @@
     	//document.getElementById('jSession').appendChild(document.createTextNode("<option value='sadsa'> what</option>"))
     	load_js_list(document.getElementById('jSession'));
       console.log('MIDI library ready')
+
+      can_play = true; // i dont know what to do with this
     }
 
   });
@@ -376,6 +380,20 @@ var keystroke_events = [];
 
 
 	}
+
+
+	function selectedInstrument(that){
+	//alert(that.value);
+
+		instrument = that.value
+
+		
+		MIDI.programChange(0, MIDI.GM.byName[instrument].number);
+
+
+			
+	};
+
 
 	function newSession(that) {
 		console.log('js_key', that.value)
