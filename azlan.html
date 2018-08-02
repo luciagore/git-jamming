@@ -49,9 +49,9 @@
 	   </select>
 	</div>
    <br />
-   <div id='select_tracks' style="display: none;" onchange="select_midis(this)">
+   <div id='select_tracks' style="display: none;">
    		<label>Tracks : </label>
-   		<select name='tracks_in_js' id='tracks_in_js' >
+   		<select name='tracks_in_js' id='tracks_in_js' onchange="select_midis(this)">
 	   </select>
    </div>
 
@@ -455,9 +455,8 @@ var keystroke_events = [];
 
 
 function select_midis(that){
-
-
-	key = '-LIgRtZCNxkg9pMUbJz0'
+		
+	key = that.value
 
 	element = document.getElementById("Notes_in_track");
 
@@ -470,7 +469,7 @@ function select_midis(that){
 		list_midi = t.midi_ids();
 
 		list_midi.forEach(function(midi, index){
-			alert(midi)
+	
 			var option = document.createElement("option");
 				    	option.text = "midi_"+index;
 				    	option.value = midi
