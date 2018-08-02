@@ -81,13 +81,11 @@ describe('mapping JammingSession to an object', function(){
   describe('users in JammingSession', function(){
 
       it("has users", function(){
-        console.log('has user test', jamming_session.getUsers())
         expect(jamming_session.getUsers()).toEqual([]);
       });
 
       it("adds users", function(){
         //action = 'add'
-        console.log('add user test b4', jamming_session.getUsers())
         jamming_session.addUser(19)
         //console.log('add user test', jamming_session.getUsers())
         expect(jamming_session.getUsers()).toEqual([19]);
@@ -118,15 +116,9 @@ describe('mapping JammingSession to an object', function(){
       });
 
       it("deletes tracks", function(){
-        console.log('before add', jamming_session.getTracks())
-        //action = 'add'
         jamming_session.addTrack(1)
         jamming_session.addTrack(23)
-        console.log('after add', jamming_session.getTracks())
-       //action = 'delete'
         jamming_session.deleteTrack(1)
-
-        console.log('after delete', jamming_session.getTracks())
         expect(jamming_session.getTracks()).toEqual([23]);
       });
 

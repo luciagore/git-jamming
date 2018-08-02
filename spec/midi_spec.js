@@ -21,7 +21,9 @@ describe('MidiStore',function(){
 
 
 	beforeEach(function(){
+		spyOn(window, 'getValues_m').and.returnValue(fb_ref_double);
 		midistore = new MidiStore(fb_ref_double, "piano", 'lucy', mididata);
+		midistore.create()
 	});
   it('has an ID', function(){
     expect(midistore.getKey()).toEqual("SOME_RANDOM_FB_KEY")
@@ -32,7 +34,6 @@ describe('MidiStore',function(){
   })
 
   it('stores a set of notes', function(){
-    spyOn(window, 'getValues_m').and.returnValue(mididata));
     expect(midistore.getMididata()).toEqual(mididata)
   })
 
@@ -41,18 +42,13 @@ describe('MidiStore',function(){
   })
 
   it('holds time', function(){
-    //spyOn(window, 'getValues_m').and.returnValue(0);
-    var time = midistore.getLength().then(function(data){
-      expect(data).toEqual(0)
-    });
+    expect(midistore.getLength()).toEqual(2)
   })
 
 	it('updates midi', function(){
-    spyOn(window, 'getValues_m').and.returnValue(mididata);
 		var addition = { note:1, delay: 21 };
 		midistore.updateMidi(addition);
 		mididata[4] = addition
-		var new_mididata = mididata;
-		expect(midistore.getMididata()).toEqual(new_mididata)
+		expect(midistore.getMididata()).toEqual(addition)
 	})
-});
+})
