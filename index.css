@@ -1,6 +1,7 @@
 * { box-sizing:border-box; }
 
-body{ margin:0; background:#fff; }
+body{ margin:0; background-image:url('img/wood.jpeg');
+		 }
 ul {
 	height:18.875em; width:34em;
   margin:5em auto; padding:3em 0 0 3em; position:relative;
@@ -43,3 +44,14 @@ ul .white:active {
 
 ul li:first-child { border-radius:5px 0 5px 5px; }
 ul li:last-child { border-radius:0 5px 5px 5px; }
+
+.button {
+	background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}

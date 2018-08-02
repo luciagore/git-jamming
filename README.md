@@ -6,7 +6,7 @@
 Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to share a recording by joining a jamming session with other users, where they can then create music together.
 
 ### <a name="instructions"></a>Instructions to use the website
-1. Our application is on this website, supported on Firefox: www.gitjamming8.herokuapp.com
+1. Our application is on this [website](#www.gitjamming8.herokuapp.com/azlan.html), supported on Firefox.
 2. Once you have the page loaded - enter your name and the instrument you would like to use. You will also need to specify whether you are joining an existing Jamming Session or starting a new one. This will take you to another page where you can start to create music.
 3. Play the keyboard to hear music - press the `play session` button to hear the music already stored on the jamming session. Once you are ready - press `record` and whatever you play from then on will be stored. You can press `record` again to stop the recording.
 4. To listen to the track you've created (which will be played over the current jamming session if it exists) - press `play`.
