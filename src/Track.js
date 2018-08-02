@@ -1,14 +1,38 @@
 function Track(fb_ref, name){
 	this._fb_ref = fb_ref;
-  	this._key = fb_ref.ref('Track').push({'name': name, 'midi_ids': [0]}).key; // added name to track, do unit test and update where we instanstiate
+	this._name = 
+  	this._key = '' // added name to track, do unit test and update where we instanstiate
+  	this._midi_ids = []
 }
+
+
+Track.prototype.create = function () {
+  this._key = this._fb_ref.ref('Track').push({'name': this._name, 'midi_ids': [0]}).key
+};
+
+Track.prototype.existing = async function (key) {
+  that = this;
+  let snapshot = await this._fb_ref.ref('Track').child(key).once('value')
+
+    
+      data = snapshot.val()
+    
+      that._name = data['name'];
+      that._midi_ids = data['midi_ids']
+      that._key = key
+  
+
+  return snapshot;
+
+};
+
 
 Track.prototype.getKey = function () {
   return this._key
 };
 
 Track.prototype.getName = function () {
-  return getValues_t(this._fb_ref, this._key, 'name')
+  return this._name;
 };
 
 Track.prototype.add_midi = function (midi_id) {
@@ -20,7 +44,7 @@ Track.prototype.add_midi = function (midi_id) {
 };
 
 Track.prototype.midi_ids = function () {
-	return getValues_t(this._fb_ref, this._key, 'midi_ids');
+	return this._midi_ids
 };
 
 function getValues_t(ref, key, child_key){
