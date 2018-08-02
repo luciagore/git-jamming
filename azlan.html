@@ -55,10 +55,10 @@
 	   </select>
    </div>
 
-   	<div id='select_midi' >
-   		<label>Midi Notes : </label>
-   		<select name='Notes_in_track' id='Notes_in_track'>
-	   </select>
+   	<div id='select_midi' style="display: none;">
+   		 <label>Midi Notes : </label>
+   		<!-- <select name='Notes_in_track' id='Notes_in_track' onchange="midi_selected(this)">
+	   </select> -->
 	</div>
 
    <br />
@@ -458,27 +458,53 @@ function select_midis(that){
 		
 	key = that.value
 
-	element = document.getElementById("Notes_in_track");
+	if (key == "new") {
+           
+            document.getElementById("select_midi").style.display = "none";
 
-	t = new Track(fb_ref, "")
-	t.existing(key).then(function(data){
-		list_midi = data
-	
-	
-		console.log("t name" ,t.getName())
-		list_midi = t.midi_ids();
+            
 
-		list_midi.forEach(function(midi, index){
-	
-			var option = document.createElement("option");
-				    	option.text = "midi_"+index;
-				    	option.value = midi
-				    	element.add(option);
-		}); 
-	});
+        } else {
+            document.getElementById("select_midi").style.display = "block";
 
+            let element = document.getElementById("Notes_in_track")
+            if(typeof(element) != 'undefined' && element != null) {
+            	
+				element.parentNode.removeChild(element);
+            }
+
+            var myDiv = document.getElementById("select_midi");
+
+
+            
+
+            var midi_dropdown = document.createElement("select");
+			midi_dropdown.id = "Notes_in_track";
+			midi_dropdown.text = "Midi Notes :";
+			myDiv.appendChild(midi_dropdown);
+
+
+			t = new Track(fb_ref, "")
+			t.existing(key).then(function(data){
+				list_midi = data
+			
+			
+				console.log("t name" ,t.getName())
+				list_midi = t.midi_ids();
+
+				list_midi.forEach(function(midi, index){
+			
+					var option = document.createElement("option");
+						    	option.text = "midi_"+index;
+						    	option.value = midi
+						    	midi_dropdown.add(option);
+				}); 
+			});
+		}
 }
-
+function midi_selected(that){
+	console.log('midi key selected: ', that.value)
+}
 	
 
 
