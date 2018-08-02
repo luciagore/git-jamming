@@ -49,11 +49,18 @@
 	   </select>
 	</div>
    <br />
-   <div id='select_tracks' style="display: none;">
-   		<select name='tracks_in_js' id='tracks_in_js'>
+   <div id='select_tracks' style="display: none;" onchange="select_midis(this)">
+   		<label>Tracks : </label>
+   		<select name='tracks_in_js' id='tracks_in_js' >
 	   </select>
-
    </div>
+
+   	<div id='select_midi' style="display: none;">
+   		<label>Midi Notes : </label>
+   		<select name='Notes_in_track' id='Notes_in_track'>
+	   </select>
+	</div>
+
    <br />
    <div id="create" style="display: none;">
       <label for="session">Name the session</label>
@@ -69,23 +76,6 @@
 </div>
 
 <div id='container' style="visibility: hidden;">
-	<input type="checkbox" id='recording' name="recording" onclick="record()">
-		<p id='text'> Start recording</p>
-	</input>
-
-	<button id='saved_keys' onclick="show()">Show</button>
-	<button id='log' onclick="log()">Play</button>
-	<button id='save_recording' onclick="save()">Save Recording</button>
-
-	<input type="input" name='notes' id='notes'></input>
-
-</div>
-
-	<div id='show_midi'></div>
-	<input type="button" id='play_each' onclick="play_each()" value='Play Each'></input>
-	<input type="button" onclick="play_all()" value="Play all"></input>
-
-
 	<div id="kbd">
 	      <div id="keys">
 	          <ul class="set">
@@ -109,9 +99,28 @@
 
 
 	  </div>
+	  
+	<input type="checkbox" id='recording' name="recording" onclick="record()">
+		<p id='text'> Start recording</p>
+	</input>
+
+	<button id='saved_keys' onclick="show()">Show</button>
+	<button id='log' onclick="log()">Play</button>
+	<button id='save_recording' onclick="save()">Save Recording</button>
+
+	<input type="input" name='notes' id='notes'></input>
+
+</div>
+
+	<div id='show_midi'></div>
+	<input type="button" id='play_each' onclick="play_each()" value='Play Each'></input>
+	<input type="button" onclick="play_all()" value="Play all"></input>
+
+
+	
 	<div id='show_div'></div>
 
-	<center>
+	<!-- <center>
 		<input type="checkbox" id='recording' name="recording" onclick="record()">
 			<p id='text'> Start recording</p>
 		</input>
@@ -119,12 +128,11 @@
 		<button id='saved_keys' onclick="show()">Show</button>
 		<button id='log' onclick="log()">Play</button>
 		<button id='save_recording' onclick="save()">Save Recording</button>
- 	</center>
+ 	</center> -->
 </div>
 
 
 <script type="text/javascript">
-
     MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
     instrument: "acoustic_grand_piano",
@@ -440,7 +448,10 @@ var keystroke_events = [];
     		);
     }
 
+function select_midis(that){
 
+
+}
 		function show_midi(key, username){
      
 		     key = '-LIpBCScYwp4qtsNvWeP'
