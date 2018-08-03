@@ -79,6 +79,16 @@
 </div>
 
 <div id='container' style="visibility: hidden;">
+	<input type="checkbox" id='recording' name="recording" onclick="record()">
+		<p id='text'> Start recording</p>
+	</input>
+
+	<button id='saved_keys' onclick="show()">Show</button>
+	<button id='log' onclick="log()">Play</button>
+	<button id='save_recording' onclick="save()">Save Recording</button>
+
+	<input type="input" name='notes' id='notes'></input>
+
 	<div  id="kbd">
 	      <div  id="keys">
 	          <ul style="background-color: white;" class="set">
@@ -102,18 +112,6 @@
 
 
 	  </div>
-
-	<input type="checkbox" id='recording' name="recording" onclick="record()">
-		<p id='text'> Start recording</p>
-	</input>
-
-	<button id='saved_keys' onclick="show()">Show</button>
-	<button id='log' onclick="log()">Play</button>
-	<button id='save_recording' onclick="save()">Save Recording</button>
-
-	<input type="input" name='notes' id='notes'></input>
-
-
 </div>
 
 	<div id='show_midi'></div>
@@ -507,19 +505,19 @@ function midi_selected(that){
 
 
 
-	function show_midi(key, username){
-		     // key = '-LIpBCScYwp4qtsNvWeP'
-		     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
-		               console.log(snapshot.val());
-		               snapshot.forEach(function(list_midi){
-		                 //document.getElementById("show_midi").innerHTML = list_midi.key
-		                 console.log('midi list', list_midi.val())
-		                 values = list_midi.val()
-		                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
-		               })
-
-		             });
-   }
+	// function show_midi(key, username){
+	// 	     // key = '-LIpBCScYwp4qtsNvWeP'
+	// 	     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
+	// 	               console.log(snapshot.val());
+	// 	               snapshot.forEach(function(list_midi){
+	// 	                 //document.getElementById("show_midi").innerHTML = list_midi.key
+	// 	                 console.log('midi list', list_midi.val())
+	// 	                 values = list_midi.val()
+	// 	                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
+	// 	               })
+	//
+	// 	             });
+  //  }
 
 	 function play_each(key){
 		 // key = '-LIpk36V4L3ak7vXpP5e'
