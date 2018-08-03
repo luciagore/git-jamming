@@ -1,6 +1,13 @@
 * { box-sizing:border-box; }
 
-body{ margin:0; background:#fff; }
+body{ margin:0;
+	background-image: url('img/rave_bg_50pc.png');
+	/* background-repeat: no-repeat; */
+		 }
+
+ul .set {
+	background: #fff;
+}
 ul {
 	height:18.875em; width:34em;
   margin:5em auto; padding:3em 0 0 3em; position:relative;
@@ -43,3 +50,8 @@ ul .white:active {
 
 ul li:first-child { border-radius:5px 0 5px 5px; }
 ul li:last-child { border-radius:0 5px 5px 5px; }
+
+.buttons{
+  text-align: center;
+  margin: 30px;
+}
