@@ -47,6 +47,9 @@
       <option value="marimba">Marimba</option>
    </select>
    <br/>
+   <img id="inst_pic" src="https://icon2.kisspng.com/20171221/ggq/piano-png-file-5a3b4b578f5e50.6726887615138353515873.jpg" height="50" width="50"></img>
+   <br/>
+   <br/>
    <div id='js_list'>
 	   <label>Jamming Session: </label>
 	   <select name='jSession' id='jSession' class='form-control form-control-m w-100' onchange="newSession(this)">
@@ -398,8 +401,15 @@ var keystroke_events = [];
 
 	function selectedInstrument(that){
 	//alert(that.value);
+		images = {acoustic_grand_piano: "https://icon2.kisspng.com/20171221/ggq/piano-png-file-5a3b4b578f5e50.6726887615138353515873.jpg",
+				electric_bass_finger: "https://png.icons8.com/metro/1600/guitar.png",
+				steel_drums: "https://www.shareicon.net/download/2015/10/16/657067_music_512x512.png",
+				marimba: "http://downloadicons.net/sites/default/files/xylophone-musical-instrument-icon-93681.png"
+	}
 
 		instrument = that.value
+
+		document.getElementById('inst_pic').src = images[instrument]
 
 
 		MIDI.programChange(0, MIDI.GM.byName[instrument].number);
