@@ -81,16 +81,6 @@
 </div>
 
 <div id='container' style="visibility: hidden;">
-	<input type="checkbox" id='recording' name="recording" onclick="record()">
-		<p id='text'> Start recording</p>
-	</input>
-
-	<button id='saved_keys' onclick="show()">Show</button>
-	<button id='log' onclick="log()">Play</button>
-	<button id='save_recording' onclick="save()">Save Recording</button>
-
-	<input type="input" name='notes' id='notes'></input>
-
 	<div  id="kbd">
 	      <div  id="keys">
 	          <ul style="background-color: white;" class="set">
@@ -114,6 +104,18 @@
 
 
 	  </div>
+
+	<input type="checkbox" id='recording' name="recording" onclick="record()">
+		<p id='text'> Start recording</p>
+	</input>
+
+	<button id='saved_keys' onclick="show()">Show</button>
+	<button id='log' onclick="hear_local()">Play</button>
+	<button id='log' onclick="log()">Listen Saved</button>
+	<button id='save_recording' onclick="save()">Save Recording</button>
+
+
+	
 </div>
 
 	<div id='show_midi'></div>
@@ -188,11 +190,13 @@ var end_recording;
 var keystroke_events = [];
 
 
+
 	var jam_session = {};
 	var fb_ref = firebase.database();
 	var can_play = false;
 	var mididata = [{key: 'start', delay: 0}];
-	var midistore;
+	var midistore = new MidiStore(fb_ref, "instrument", 'user_ids',	[] 	);
+	
 
 	$(document).ready(function(){
            $('#begin_jamming').submit(function(event){
@@ -222,24 +226,37 @@ var keystroke_events = [];
 
 	            jam_session = {username: username, instrument: instrument};
 
-	            var player = new Player(fb_ref);
-	            player.add_user(user.getKey());
+	            // var player = new Player(fb_ref);
+	            // player.add_user(user.getKey());
 
 	            var track = new Track(fb_ref, "new track");
 
 	            var js = new JammingSession(fb_ref, jamSession_name)
 	            js.addTrack(track.getKey());
-	            js.addUser(player.getKey());
+	            // js.addUser(player.getKey());
 
 	            var midistore_temp = new MidiStore(fb_ref, instrument, user.getKey(),
 	            	mididata
 	            	);
-	            midistore = midistore_temp;
+	            midistore_temp.create();
+
+	            alert(midistore_temp.getKey())
+	            midistore.existing( midistore_temp.getKey() );
 
 	            track.add_midi(midistore.getKey());
 
-	            document.getElementById('form').style.visibility = 'hidden'
+	            //document.getElementById('form').style.visibility = 'hidden'
+
+	             let element = document.getElementById("form")
+            if(typeof(element) != 'undefined' && element != null) {
+
+				element.parentNode.removeChild(element);
+            }
+
+
  		    			document.getElementById('container').style.visibility = 'visible'
+
+
 
 							show_midi(user.getKey(), user.getName())
 
@@ -520,22 +537,20 @@ function midi_selected(that){
 
 
 
+function hear_local(){
 
-
-
-	// function show_midi(key, username){
-	// 	     // key = '-LIpBCScYwp4qtsNvWeP'
-	// 	     fb_ref.ref('MidiStore').orderByChild('user_id').equalTo(key).on("value", function(snapshot) {
-	// 	               console.log(snapshot.val());
-	// 	               snapshot.forEach(function(list_midi){
-	// 	                 //document.getElementById("show_midi").innerHTML = list_midi.key
-	// 	                 console.log('midi list', list_midi.val())
-	// 	                 values = list_midi.val()
-	// 	                 document.getElementById("show_midi").innerHTML += "instrument: "+values['instrument']+" username: "+ username+ "<br/>";
-	// 	               })
-	//
-	// 	             });
-  //  }
+		values = keystroke_events; 
+		values.forEach(function(note) {
+			let key = note.key;
+			let delay = note.delay
+			setTimeout(function(){
+				//console.log(keystroke_events);
+				console.log(key);
+				play(mapkey(key));
+			}, delay);
+		})
+		 				
+	 }
 
 	 function play_each(key){
 		 // key = '-LIpk36V4L3ak7vXpP5e'
@@ -557,7 +572,7 @@ list_of_midis = []
 
  function get_data (){
  	list_of_midis = []
-    // js_id = "-LIgRtZFJZYXNFZIHxXP";
+     js_id = "-LIgRtZFJZYXNFZIHxXP";
     //find the jammingSession at the js_id
     fb_ref.ref('JammingSession').child(js_id).once('value').then(function(js){
       console.log('js at js id', js.val())
