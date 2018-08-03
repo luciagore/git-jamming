@@ -4,6 +4,10 @@ body{ margin:0;
 	background-image: url('img/rave_bg_50pc.png');
 	/* background-repeat: no-repeat; */
 		 }
+
+ul .set {
+	background: #fff;
+}
 ul {
 	height:18.875em; width:34em;
   margin:5em auto; padding:3em 0 0 3em; position:relative;
