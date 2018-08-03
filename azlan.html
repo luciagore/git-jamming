@@ -37,7 +37,9 @@
 <div id='loading'> Loading Midi ... </div>
 <div id='form' style="visibility: hidden;">
 	<form id='begin_jamming' class='form-group w-25 ml-auto mr-auto'>
+	<label>User Name: </label>
    <input type="text" id='username' name="username" placeholder="Username:"></input>
+   <br/>
    <br/>
    <label>Instrument: </label>
    <select name='instrument' id='instrument' onchange="selectedInstrument(this)" class='form-control form-control-m w-100'>
@@ -243,7 +245,7 @@ var keystroke_events = [];
 	            	);
 	            midistore_temp.create();
 
-	            alert(midistore_temp.getKey())
+	            
 	            midistore.existing( midistore_temp.getKey() );
 
 	            track.add_midi(midistore.getKey());
