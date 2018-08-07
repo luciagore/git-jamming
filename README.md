@@ -7,11 +7,9 @@ Welcome to Git Jamming - this is a project we worked on during the final two wee
 
 ### <a name="instructions"></a>Instructions to use the website
 1. Our application is on this [website](#www.gitjamming8.herokuapp.com/azlan.html), supported on Firefox.
-2. Once you have the page loaded - enter your name and the instrument you would like to use. You will also need to specify whether you are joining an existing Jamming Session or starting a new one. This will take you to another page where you can start to create music.
-3. Play the keyboard to hear music - press the `play session` button to hear the music already stored on the jamming session. Once you are ready - press `record` and whatever you play from then on will be stored. You can press `record` again to stop the recording.
-4. To listen to the track you've created (which will be played over the current jamming session if it exists) - press `play`.
-5. Click the button Sign Out if you want to log in as a new player
-6. Click the button Leave Session if you would like to start a new jamming session but continue to use the website.
+2. Once you have the page loaded - enter your name and the instrument you would like to use, pick a jamming session, track and midi. Then click Submit - this will take you to a new page where you can begin to play music.
+3. Play the keyboard to hear music. Once you are ready - press `Start Recording` and whatever you play from then on will be stored. You can press the click box again to stop recording.
+4. To listen to the recording you've created - press `play`. If you're happy with it click `Save Recording` to store to the database. If you would like to add to the music you've created you can start recording again. Whenever you click `Listen Saved` you will hear the full recording.
 
 ### <a name="user"></a>User Stories
 ```
@@ -72,7 +70,8 @@ We were much more positive at the start of this week, having successfully create
 
 ### <a name="pictures"></a>Pictures/Screenshots of the Application
 
-
+<img src='img/Screen Shot 2018-08-07 at 17.03.34.png' />
+<img src='img/Screen Shot 2018-08-07 at 17.03.49.png' />
 
 ### Languages/Frameworks Used
 
