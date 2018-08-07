@@ -1,6 +1,6 @@
 ## Git Jamming
 
-[Instructions](#instructions) | [User Stories](#user) | [Week One Summary](#one) | [Week Two Goals](#two) | [Pictures/Screenshots](#pictures) | [Expansion](#expansion)
+[Instructions](#instructions) | [User Stories](#user) | [Week One Summary](#one) | [Week Two Summary](#two) | [Pictures/Screenshots](#pictures) | [Expansion](#expansion)
 
 
 Welcome to Git Jamming - this is a project we worked on during the final two weeks at Makers, in a team of four, with the aim to create a web application that allows the user to share a recording by joining a jamming session with other users, where they can then create music together.
@@ -58,9 +58,17 @@ We set up a Trello Board, Git repo, and worked together in pairs throughout the 
 
 At the end of the first week we have been able to create our MVP and build upon it. We have a full piano keyboard with 12 notes, with front end design, and the ability to store the track (not yet to the database) and play each note back in the order and speed that it was originally played. We have also created a database with methods to add and delete from the database which are fully tested.
 
-### <a name="two"></a>Week Two Goals
+### <a name="two"></a>Week Two Summary
 
-At this stage, we will aim to first allow a different user to access the same track within a 'jamming session', so that two different users can store their updates and harmonies onto the track and work together on it. We will of course aim to have everything fully connected to the database too. We will then make sure that multiple users can work on multiple tracks and that there is a simple user friendly way to access these different elements of the Application. Finally we will try to implement different instruments - and perhaps even a chatroom feature to allow users working in the same 'jamming session' to communicate with each other in real time.
+At the end of the first week our goals for week two were as follows:
+- Allow a different user to access the same track within a 'jamming session'
+- Allow two different users can store their updates and harmonies onto the 'jamming session'
+- Connect and retrieve all information from the database
+- Multiple Users accessing multiple Tracks within a Jamming Session
+- User friendly interface
+- Different instruments
+
+We were much more positive at the start of this week, having successfully created an ORM system within a non-relational database in the previous week as well as playback function from the MIDI data that we were processing. We came across a large bug in the system when we started to try to store the data in the database and then retrieve it, everything seemed to break and we couldn't even playback the music without storing it. This was a bit of a disaster and took a lot of mental strain on us, however we managed to overcome it and the final product included four instruments, a playback, store and record function as well as fully functioning database. We were really pleased with the end product which included a snazzy interface too.  
 
 ### <a name="pictures"></a>Pictures/Screenshots of the Application
 
